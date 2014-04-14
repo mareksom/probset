@@ -1,0 +1,149 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+			<title>
+				{% block head_title %}
+					DEFAULT TITLE
+				{% endblock %}
+			</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="{% block head_description %}A set of algorithmic problems.{% endblock %}" />
+		<meta name="author" content="{% block head_author %}Marek Sommer{% endblock %}">
+		
+		<!-- Le styles -->
+		<link href="{% static 'bootstrap/bootstrap/docs/assets/css/bootstrap.css' %}" rel="stylesheet" />
+		<link href="{% static 'bootstrap/bootstrap/docs/assets/css/footer.css' %}" rel="stylesheet" />
+		<link href="{% static 'bootstrap/bootstrap/docs/assets/css/bootstrap-responsive.css' %}" rel="stylesheet" />
+		
+		<!-- Fav and touch icons -->
+		<link rel="apple-touch-icon-precomposed" sizes="144x144"
+			href="{% static 'bootstrap/bootstrap/docs/assets/ico/apple-touch-icon-144-precomposed.png' %}" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114"
+			href="{% static 'bootstrap/bootstrap/docs/assets/ico/apple-touch-icon-114-precomposed.png' %}" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72"
+			href="{% static 'bootstrap/bootstrap/docs/assets/ico/apple-touch-icon-72-precomposed.png' %}" />
+		<link rel="apple-touch-icon-precomposed"
+			href="{% static 'bootstrap/bootstrap/docs/assets/ico/apple-touch-icon-57-precomposed.png' %}" />
+		<link rel="shortcut icon" href="{% static 'bootstrap/bootstrap/docs/assets/ico/favicon.png' %}" />
+		
+		{# custom styles #}
+		<link href="{% static 'bootstrap/select/bootstrap-select.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'bootstrap/datepicker/datepicker.css' %}" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="{% static 'news/style.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'problems/style.css' %}" />
+		<!-- <script src="{% static 'postmarkup/jquery-1.2.6.min.js' %}" type="text/javascript"></script> -->
+		<!-- <script src="{% static 'postmarkup/bbcode.js' %}" type="text/javascript"></script> -->
+		<link rel="stylesheet" type="text/css" href="{% static 'postmarkup/style.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'problems/comment.css' %}" />
+		
+		{% block head_styles %}
+			{# Block for inserting specific head styles on subpages #}
+		{% endblock %}
+	</head>
+	
+	<body>
+		<div id="wrap"> {# wrapper for footer #}
+			
+			<div class="navbar navbar-inverse navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container">
+						<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="brand" href="/">
+							{% block bar_project_name %}
+								Problemset
+							{% endblock %}
+						</a>
+						
+						<div class="nav-collapse collapse">
+							{% block bar_tabs %}
+							{% endblock %}
+						</div> {# nav-collapse #}
+			
+						<div class="nav-collapse collapse pull-right">
+							{% block bar_info %}
+								{% if user.is_authenticated %}
+									<ul class="nav">
+										<li> <a> {{ user.get_full_name }} </a> </li>
+										<li> <a href="/accounts/logout"> Log out&nbsp;&nbsp;&nbsp;<i class="icon-off icon-white"></i> </a> </li>
+									</ul>
+								{% endif %}
+							{% endblock %}
+						</div>
+					</div> {# container #}
+				</div> {# navbar-inner #}
+			</div> {# navbar navbar-inverse navbar-fixed-top #}
+			
+			<div class="container">
+				{% block base_content %}
+					That's a template - override it!
+				{% endblock %}
+			</div> {# container #}
+			
+			<div id="push"></div>
+		</div> {# end of footer's wrapper #}
+		
+		<div id="footer">
+			<div class="container">
+				<div style="float: left;">
+					<p class="muted credit">
+						Marek Sommer 2014 for <a href="http://ki.staszic.waw.pl/">Kółko Informatyczne</a>
+					</p>
+				</div>
+				<div style="float: right;">
+					<p class="muted credit">
+						{% now "jS F Y H:i" %}
+					</p>
+				</div>
+			</div> {# container #}
+		</div> {# footer #}
+		
+		<!-- Le javascript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/jquery.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-transition.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-alert.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-modal.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-dropdown.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-scrollspy.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-tab.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-tooltip.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-popover.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-button.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-collapse.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-carousel.js' %}"></script>
+		<script src="{% static 'bootstrap/bootstrap/docs/assets/js/bootstrap-typeahead.js' %}"></script>
+		
+		{# non-bootstrap javascript #}
+		<script src="{% static 'bootstrap/select/bootstrap-select.min.js' %}"></script>
+		<script src="{% static 'bootstrap/jscolor/jscolor.js' %}"></script>
+		<script src="{% static 'bootstrap/datepicker/datepicker.js' %}"></script>
+		
+		<script> {# enable selectpicker and datepicker #}
+			$('select').selectpicker()
+			$('.datepicker').datepicker({
+				format: "dd-mm-yyyy",
+				weekStart: 1
+			})
+		</script>
+
+		{% block scripts %} {# block to enable specific end-scripts on subpages #}
+		{% endblock %}
+
+		<script type="text/x-mathjax-config"> {# enable mathjax -- javascript LaTeX #}
+			MathJax.Hub.Config({tex2jax: {inlineMath: [['\\(','\\)']]}});
+		</script>
+
+		<script type="text/javascript"
+			src="{% static 'mathjax/MathJax.js' %}?config=TeX-AMS-MML_HTMLorMML">
+		</script>
+		
+	</body>
+</html>
