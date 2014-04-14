@@ -2,19 +2,16 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 
-#from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as sup_logout
 from django.contrib.auth import login as sup_login
 from django.contrib.auth import  authenticate
 
 from django.contrib.auth.models import User
 
-#from utils.messages import error_msg, success_msg
+from utils.messages import error_msg, success_msg
 
-def error_msg(a, b): pass
-def success_msg(a, b): pass
-
-#@login_required
+@login_required
 def settings(request):
 	user = request.user
 	context = {'first_name' : user.first_name, 'last_name' : user.last_name}
@@ -45,21 +42,25 @@ def settings(request):
 
 	return render(request, 'accounts/settings.html', context)
 
-#@login_required
+@login_required
 def users(request):
 	users = User.objects.all()
 	context = {'users': users}
 	return render(request, 'accounts/users.html', context)
 
-#@login_required
+@login_required
 def user(request,ID):
-	user = User.objects.get(id=ID)
-	context = {'get_user': user}
+	try:
+		user = User.objects.get(id=ID)
+	except User.DoesNotExist:
+		error_msg(request, "User with id={} does not exist.".format(ID))
+		return redirect('accounts-users')
+	context = {'user': user}
 	return render(request, 'accounts/user.html', context)
 
 def login(request):
 	if request.user.is_authenticated():
-		return redirect('/news')
+		return redirect('accounts-users')
 	messages = []
 	if request.method == 'POST':
 		username = request.POST.get('username','')
@@ -68,14 +69,14 @@ def login(request):
 		if user is not None:
 			if user.is_active:
 				sup_login(request, user)
-				return redirect('/news')
+				return redirect('accounts-users')
 			else:
 				error_msg(request, 'Your account is disabled.')
 		else:
 			error_msg(request, 'Wrong username or password.')
 	return render(request, 'accounts/login.html')
 
-#@login_required
+@login_required
 def logout(request):
 	sup_logout(request)
 	return redirect('login')
