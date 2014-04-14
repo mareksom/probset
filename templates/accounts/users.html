@@ -1,0 +1,33 @@
+{% extends "menu.html" %}
+
+{% block head_title %}
+User list
+{% endblock %}
+
+{% block content %}
+
+<h1>Users</h1>
+
+<table class="table table-bordered table-striped">
+
+	<tr>
+		<td><b>Username</b></td>
+		<td><b>Full name</b></td>
+		<td><b>Last login</b></td>
+		<td><b>Date joined</b></td>
+		<td><b>Is superuser</b></td>
+	</tr>
+
+{% for user in users %}
+	<tr>
+		<td>{{ user.username }}</td>
+		<td><a href="{% url 'accounts-user' user.id %}">{{ user.get_full_name }}</a></td>
+		<td>{{ user.last_login }}</td>
+		<td>{{ user.date_joined }}</td>
+		<td>{% if user.is_superuser %}<i class="icon icon-ok"></i>{% else %}<i class="icon icon-remove"></i>{% endif %}</td>
+	</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}

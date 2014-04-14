@@ -1,0 +1,13 @@
+{% for message in error_messages %}
+	<div class="alert alert-error">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		{{ message }}
+	</div>
+{% endfor %}
+{% for message in success_messages %}
+	<div class="alert alert-success">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		{{ message }}
+	</div>
+{% endfor %}
+<div style="both:clear; margin: -10px; padding: 0px;">&nbsp;</div>

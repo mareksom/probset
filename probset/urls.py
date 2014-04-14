@@ -8,7 +8,8 @@ urlpatterns = patterns('',
     # url(r'^$', 'probset.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-		url(r'$', 'probset.views.home', name='home'),
+		url(r'^$', 'probset.views.home', name='home'),
+		url(r'^accounts/', include('accounts.urls'), name='accounts'),
 
     url(r'^admin/', include(admin.site.urls)),
 )

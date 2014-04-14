@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+Log in
+{% endblock %}
+
+{% block base_content %}
+<h1>Please, log in</h1>
+{% include "messages.html" %}
+<form method="post" class="form-horizontal">
+{% csrf_token %}
+	<div class="control-group">
+		<label class="control-label" for="input_username">Username</label>
+		<div class="controls">
+			<input type="text" name="username" id="input_username" placeholder="Username" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="input_password">Password</label>
+		<div class="controls">
+			<input type="password" name="password" id="input_password" placeholder="Password" />
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" class="btn btn-primary">Log in</button>
+		</div>
+	</div>
+</form>
+{% endblock %}

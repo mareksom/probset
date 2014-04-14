@@ -3,4 +3,4 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 
 def home(request):
-	return render(request, 'base.html', {})
+	return render(request, 'menu.html', {})
