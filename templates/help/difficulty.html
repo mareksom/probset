@@ -1,0 +1,184 @@
+{% extends "help/menu.html" %}
+
+{% load bbcode %}
+{% load badges %}
+
+{% block tab %}
+<h3>Difficulty</h3>
+<p>
+W jaki sposób poprawnie przypisać trudność do zadania?
+Nie ma na to dobrego sposobu, ale żeby strona zachowała spójność w oznaczeniu trudności,
+należy się stosować do następujących reguł:
+</p>
+<table class="table table-bordered table-striped">
+<thead>
+	<tr>
+		<th>Trudność</th>
+		<th>Opis</th>
+	</tr>
+</thead>
+
+<tr>
+	<td>{% veasy %}</td>
+	<td>
+		Zadanie, które nie wymaga znajomości STL'a, ani znajomości żadnej teorii.
+		Chodzi tylko o to, żeby osoba, do której to zadanie jest skierowane,
+		znała język na tyle, żeby napisać program,
+		operujący na jakichś tablicach czy prostych obiektach.
+		<b>W żadnym wypadku nie należy zakładać znajomości algorytmów BFS i DFS!</b>
+		<br/>
+		Przykłady zadań:
+		<ul>
+			<li>
+				Jest dany zbiór \(X\), zawierający \(10^6\) liczb całkowitych.
+				Znaleźć \(\min \{\, \mid\!x+y\!\mid\,: x,y \in X \}\).
+			</li>
+			<li>
+				Dany jest podzbiór \(n-1\) liczb ze zbioru \( \{ 1, 2, \ldots, n \} \).
+				Podzbiór nie mieści się w pamięci.
+				Znaleźć liczbę, której brakuje.
+			</li>
+			<li>
+				Wczytać z wejścia liczbę \(n\) i wypisać Dywan Sierpińskiego po \(n\) iteracjach.
+			</li>
+			<li>
+				Na wejściu są podane współrzędne czterech punktów na płaszczyźnie.
+				Stwierdzić, czy istnieje równoległobok o takich wierzchołkach.
+			</li>
+		</ul>
+	</td>
+</tr>
+
+<tr>
+	<td>{% easy %}</td>
+	<td>
+		Wszystko, co chciałoby się wrzucić do {% veasy %},
+		bo zadanie nie jest ani trochę skomplikowane,
+		jednak wymaga jakiejś techniki, lub wiedzy w stylu: BFS, DFS, sortowanie, STL.
+		<br/>
+		Przykłady zadań:
+		<ul>
+			<li>
+				Mamy zbiór \(n\) przedziałów czasu (czas podany w formacie HH:MM:SS).
+				Sprawdzić, czy jakieś dwa przedziały się przecinają.
+			</li>
+			<li>
+				{% bbcode %}
+					[code python]def F(a, b):
+    if a > b: return 1 + F(a-b, b)
+    if b > a: return 1 + F(a, b-a)
+    return 0[/code]
+				{% endbbcode %}
+				Dane \(a, b\).
+				Policzyć \(F(a,b)\).
+			</li>
+			<li>
+				Jest \(n\) liczb na okręgu.
+				Wielkość łuku to suma liczb, które się na nim znajdują.
+				Podzielić okrąg na dwa łuki tak, aby większy z nich był możliwie najmniejszy.
+			</li>
+			<li>
+				Dany jest graf nieskierowany.
+				Dla każdej krawędzi stwierdzić, czy leży na jakiejkolwiek najkrótszej ścieżce między wierzchołkami \(1\) i \(n\).
+			</li>
+		</ul>
+	</td>
+</tr>
+
+<tr>
+	<td>{% medium %}</td>
+	<td>
+		Zadanie, które już wymaga myślenia lub trudniejszej implementacji,
+		jednak sprowadza się do jakichś prostych i znanych schematów.
+		<br/>
+		Przykłady zadań:
+		<ul>
+			<li>
+				Jest dana mapa \(n \times m\). Każde pole ma ustaloną wysokość,
+				a na niektórych polach znajdują się punkty do zebrania.
+				Zbieranie punktów nie jest przymusowe.
+				Na pole o wysokości \(h\) można wejść tylko wtedy, gdy ma się co najmniej \(h\) punktów.
+				Zaczynasz w polu \((1,1)\) z zeroma punktami.
+				Ile minimalnie razy trzeba zebrać punkty, aby dało się dojść do konkretnego pola \((x,y)\)?
+			</li>
+			<li>
+				Dany jest graf, w którym wierzchołki mają wartości,
+				a krawędź łącząca dwa wierzchołki ma wartość równą minimum z wartości wierzchołków,
+				z którymi jest incydentna.
+				Wartości wierzchołków nie są znane, natomiast wartości krawędzi tak.
+				Znaleźć dowolne przypisanie wierzchołkom wartości, aby własność grafu została zachowana.
+			</li>
+			<li>
+				Na wejściu jest \(n\) słów nad alfabetem \(m\)-znakowym.
+				Stwierdzić, czy istnieje taka kolejność liter w alfabecie,
+				żeby dane słowa były posortowane leksykograficznie?
+				Jeśli istnieje, wypisać przykładową.
+			</li>
+		</ul>
+	</td>
+</tr>
+
+<tr>
+	<td>{% hard %}</td>
+	<td>
+		Zadanie trudne, na którego wymyślenie trzeba poświęcić przynajmniej 20 minut na konteście :)
+		Zadanie, które sprowadza się w trudny sposób do standardowego zadania,
+		lub takie, które nie podpada pod żaden szablon.
+		<br/>
+		Przykłady zadań:
+		<ul>
+			<li>
+				Dany jest podzbiór \(n-3\) liczb ze zbioru \( \{ 1, 2, \ldots, n \} \).
+				Podzbiór nie mieści się w pamięci.
+				Znaleźć liczby, których brakuje.
+			</li>
+			<li>
+				Liście w drzewie pomalowano na \(k\) kolorów.
+				Dla każdego koloru policz odległość między najbardziej odległą parą wierzchołków
+				w tym kolorze.
+			</li>
+			<li>
+				Jest dany ciąg liczb o długości \(n\), oraz liczba \(k\) taka, że \(k \mid n\).
+				Ta liczba dzieli ciąg na bloki długości \(k\).
+				Wykonać na tym ciągu \(x\) operacji, gdzie \(i\)-ta z nich jest jednej z postaci:
+				<ul>
+					<li>przesunąć cyklicznie <b>każdy</b> blok o \(p_i\) pozycji</li>
+					<li>przesunąć cyklicznie cały ciąg o \(p_i\) pozycji</li>
+				</ul>
+				Wypisać ciąg <b>po</b> tych operacjach.
+			</li>
+		</ul>
+	</td>
+</tr>
+
+<tr>
+	<td>{% vhard %}</td>
+	<td>
+		Zadania najtrudniejsze, nad wymyśleniem których trzeba długo posiedzieć,
+		lub których nikt normalny nie zrobi na konteście przed OI --
+		czyli wszystkie, które są zbyt trudne, żeby trafić do {% hard %},
+		lub wymagają teorii, która na poziomie OI jest zbyt trudna, albo po prostu nieznana.
+		<br/>
+		Przykłady zadań:
+		<ul>
+			<li>
+				Dany jest graf.
+				Znaleźć permutację wierzchołków, taką że dla każdego wierzchołka \(v\),
+				gdy weźmie się jego sąsiadów występujących wcześniej w permutacji \((s_1, s_2, \ldots, s_k)\),
+				to zbiór wierzchołków \(\{v, s_1, s_2, \ldots, s_k\}\) tworzy klikę.
+				Taka permutacja może nie istnieć.
+			</li>
+			<li>
+				Na płaszczyźnie jest \(n\) trójkątów.
+				Na ile obszarów dzielą one płaszczyznę?
+			</li>
+			<li>
+				Znaleźć dodatnią wielokrotność liczby \(n\) o najmniejszej sumie cyfr.
+				W przypadku istnienia wielu takich wielokrotności, podać najmniejszą z nich.
+			</li>
+		</ul>
+	</td>
+</tr>
+
+</table>
+{% endblock %}

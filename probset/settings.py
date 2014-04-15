@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 	'mytemplates',
 	'accounts',
 	'news',
+	'help',
 )
 
 MIDDLEWARE_CLASSES = (

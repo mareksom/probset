@@ -1,0 +1,24 @@
+{% extends "menu.html" %}
+
+{% block head_title %}
+	Help
+{% endblock %}
+
+{% block content %}
+<h1>Help</h1>
+<ul class="nav nav-pills">
+
+	<li{% if tab == "bbcode" %} class="active"{% endif %}>
+		<a href="/help/bbcode/"><i class="icon-barcode"></i> BBCode</a>
+	</li>
+
+	<li{% if tab == "difficulty" %} class="active"{% endif %}>
+		<a href="/help/difficulty/"><i class="icon-asterisk"></i> Difficulty</a>
+	</li>
+
+</ul>
+
+{% block tab %}
+{% endblock %}
+
+{% endblock %}

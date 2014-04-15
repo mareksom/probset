@@ -1,0 +1,72 @@
+.bbcode > blockquote { border-color: #555; }
+.bbcode_example { background-color: inherit; border: 0px; padding: 0px; margin: 0px; }
+.bbcode > .code pre { background: #222; color: #ccc; }
+.bbcode > .code .hll { background-color: #404040 }
+.bbcode > .code .c { color: #999999; font-style: italic } /* Comment */
+.bbcode > .code .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.bbcode > .code .g { color: #d0d0d0 } /* Generic */
+.bbcode > .code .k { color: #6ab825; font-weight: bold } /* Keyword */
+.bbcode > .code .l { color: #d0d0d0 } /* Literal */
+.bbcode > .code .n { color: #d0d0d0 } /* Name */
+.bbcode > .code .o { color: #d0d0d0 } /* Operator */
+.bbcode > .code .x { color: #d0d0d0 } /* Other */
+.bbcode > .code .p { color: #d0d0d0 } /* Punctuation */
+.bbcode > .code .cm { color: #999999; font-style: italic } /* Comment.Multiline */
+.bbcode > .code .cp { color: #cd2828; font-weight: bold } /* Comment.Preproc */
+.bbcode > .code .c1 { color: #999999; font-style: italic } /* Comment.Single */
+.bbcode > .code .cs { color: #e50808; font-weight: bold; background-color: #520000 } /* Comment.Special */
+.bbcode > .code .gd { color: #d22323 } /* Generic.Deleted */
+.bbcode > .code .ge { color: #d0d0d0; font-style: italic } /* Generic.Emph */
+.bbcode > .code .gr { color: #d22323 } /* Generic.Error */
+.bbcode > .code .gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.bbcode > .code .gi { color: #589819 } /* Generic.Inserted */
+.bbcode > .code .go { color: #cccccc } /* Generic.Output */
+.bbcode > .code .gp { color: #aaaaaa } /* Generic.Prompt */
+.bbcode > .code .gs { color: #d0d0d0; font-weight: bold } /* Generic.Strong */
+.bbcode > .code .gu { color: #ffffff; text-decoration: underline } /* Generic.Subheading */
+.bbcode > .code .gt { color: #d22323 } /* Generic.Traceback */
+.bbcode > .code .kc { color: #6ab825; font-weight: bold } /* Keyword.Constant */
+.bbcode > .code .kd { color: #6ab825; font-weight: bold } /* Keyword.Declaration */
+.bbcode > .code .kn { color: #6ab825; font-weight: bold } /* Keyword.Namespace */
+.bbcode > .code .kp { color: #6ab825 } /* Keyword.Pseudo */
+.bbcode > .code .kr { color: #6ab825; font-weight: bold } /* Keyword.Reserved */
+.bbcode > .code .kt { color: #6ab825; font-weight: bold } /* Keyword.Type */
+.bbcode > .code .ld { color: #d0d0d0 } /* Literal.Date */
+.bbcode > .code .m { color: #3677a9 } /* Literal.Number */
+.bbcode > .code .s { color: #ed9d13 } /* Literal.String */
+.bbcode > .code .na { color: #bbbbbb } /* Name.Attribute */
+.bbcode > .code .nb { color: #24909d } /* Name.Builtin */
+.bbcode > .code .nc { color: #447fcf; text-decoration: underline } /* Name.Class */
+.bbcode > .code .no { color: #40ffff } /* Name.Constant */
+.bbcode > .code .nd { color: #ffa500 } /* Name.Decorator */
+.bbcode > .code .ni { color: #d0d0d0 } /* Name.Entity */
+.bbcode > .code .ne { color: #bbbbbb } /* Name.Exception */
+.bbcode > .code .nf { color: #447fcf } /* Name.Function */
+.bbcode > .code .nl { color: #d0d0d0 } /* Name.Label */
+.bbcode > .code .nn { color: #447fcf; text-decoration: underline } /* Name.Namespace */
+.bbcode > .code .nx { color: #d0d0d0 } /* Name.Other */
+.bbcode > .code .py { color: #d0d0d0 } /* Name.Property */
+.bbcode > .code .nt { color: #6ab825; font-weight: bold } /* Name.Tag */
+.bbcode > .code .nv { color: #40ffff } /* Name.Variable */
+.bbcode > .code .ow { color: #6ab825; font-weight: bold } /* Operator.Word */
+.bbcode > .code .w { color: #666666 } /* Text.Whitespace */
+.bbcode > .code .mf { color: #3677a9 } /* Literal.Number.Float */
+.bbcode > .code .mh { color: #3677a9 } /* Literal.Number.Hex */
+.bbcode > .code .mi { color: #3677a9 } /* Literal.Number.Integer */
+.bbcode > .code .mo { color: #3677a9 } /* Literal.Number.Oct */
+.bbcode > .code .sb { color: #ed9d13 } /* Literal.String.Backtick */
+.bbcode > .code .sc { color: #ed9d13 } /* Literal.String.Char */
+.bbcode > .code .sd { color: #ed9d13 } /* Literal.String.Doc */
+.bbcode > .code .s2 { color: #ed9d13 } /* Literal.String.Double */
+.bbcode > .code .se { color: #ed9d13 } /* Literal.String.Escape */
+.bbcode > .code .sh { color: #ed9d13 } /* Literal.String.Heredoc */
+.bbcode > .code .si { color: #ed9d13 } /* Literal.String.Interpol */
+.bbcode > .code .sx { color: #ffa500 } /* Literal.String.Other */
+.bbcode > .code .sr { color: #ed9d13 } /* Literal.String.Regex */
+.bbcode > .code .s1 { color: #ed9d13 } /* Literal.String.Single */
+.bbcode > .code .ss { color: #ed9d13 } /* Literal.String.Symbol */
+.bbcode > .code .bp { color: #24909d } /* Name.Builtin.Pseudo */
+.bbcode > .code .vc { color: #40ffff } /* Name.Variable.Class */
+.bbcode > .code .vg { color: #40ffff } /* Name.Variable.Global */
+.bbcode > .code .vi { color: #40ffff } /* Name.Variable.Instance */
+.bbcode > .code .il { color: #3677a9 } /* Literal.Number.Integer.Long */

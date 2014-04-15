@@ -1,0 +1,34 @@
+{% extends "help/menu.html" %}
+
+{% load bbcode %}
+
+{% block head_title %}
+BBCode -- Help
+{% endblock %}
+
+{% block tab %}
+<h3>BBCode</h3>
+<table class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>Code</th>
+			<th>Result</th>
+		</tr>
+	</thead>
+
+{% for bb in bbcode_list %}
+<tr>
+	<td>
+		<pre class="bbcode_example">{{ bb }}</pre>
+	</td>
+	<td>
+		{% bbcode %}
+			{{ bb | safe }}
+		{% endbbcode %}
+	</td>
+</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}
