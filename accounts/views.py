@@ -38,7 +38,7 @@ def settings(request):
 			user.last_name = context['last_name']
 			user.save()
 			success_msg(request, "Your new settings was saved.")
-			return redirect('accounts/settings.html')
+			return redirect('accounts-settings')
 
 	return render(request, 'accounts/settings.html', context)
 
