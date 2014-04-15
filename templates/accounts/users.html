@@ -1,5 +1,7 @@
 {% extends "menu.html" %}
 
+{% load icon %}
+
 {% block head_title %}
 User list
 {% endblock %}
@@ -24,7 +26,13 @@ User list
 		<td><a href="{% url 'accounts-user' user.id %}">{{ user.get_full_name }}</a></td>
 		<td>{{ user.last_login }}</td>
 		<td>{{ user.date_joined }}</td>
-		<td>{% if user.is_superuser %}<i class="icon icon-ok"></i>{% else %}<i class="icon icon-remove"></i>{% endif %}</td>
+		<td>
+			{% if user.is_superuser %}
+				{% icon 'ok' %}
+			{% else %}
+				{% icon 'remove' %}
+			{% endif %}
+		</td>
 	</tr>
 {% endfor %}
 

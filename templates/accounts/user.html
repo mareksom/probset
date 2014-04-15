@@ -1,5 +1,7 @@
 {% extends "menu.html" %}
 
+{% load icon %}
+
 {% block head_title %}
 {{ user.get_full_name }}
 {% endblock %}
@@ -20,6 +22,12 @@
 		<td>{{ user.date_joined }}</td>
 	</tr>
 	<td><b>Is superuser</b></td>
-	<td>{% if user.is_superuser %}<i class="icon icon-ok"></i>{% else %}<i class="icon icon-remove"></i>{% endif %}</td>
+	<td>
+		{% if user.is_superuser %}
+			{% icon 'ok' %}
+		{% else %}
+			{% icon 'remove' %}
+		{% endif %}
+	</td>
 </table>
 {% endblock %}

@@ -1,5 +1,7 @@
 {% extends "menu.html" %}
 
+{% load icon %}
+
 {% block head_title %}
 	Help
 {% endblock %}
@@ -9,11 +11,11 @@
 <ul class="nav nav-pills">
 
 	<li{% if tab == "bbcode" %} class="active"{% endif %}>
-		<a href="/help/bbcode/"><i class="icon-barcode"></i> BBCode</a>
+		<a href="/help/bbcode/">{% icon 'barcode' %} BBCode</a>
 	</li>
 
 	<li{% if tab == "difficulty" %} class="active"{% endif %}>
-		<a href="/help/difficulty/"><i class="icon-asterisk"></i> Difficulty</a>
+		<a href="/help/difficulty/">{% icon 'asterisk' %} Difficulty</a>
 	</li>
 
 </ul>

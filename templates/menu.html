@@ -1,17 +1,19 @@
 {% extends "base.html" %}
 
+{% load icon %}
+
 {% block base_content %}
 <div class="row">
 	<div class="span2">
 		<ul class="nav nav-pills nav-stacked">
-			<li><a href="{% url 'accounts-users' %}"><i class="icon-user"></i> Users</a></li>
-			<li><a href="{% url 'news-news' %}"><i class="icon-envelope"></i> News</a></li>
-			<li><a href="/problems"><i class="icon-th"></i> Problems</a></li>
-			<li><a href="/contests"><i class="icon-calendar"></i> Contests</a></li>
-			<li><a href="/tags/"><i class="icon-tag"></i> Tags</a></li>
+			<li><a href="{% url 'accounts-users' %}">{% icon 'user' %} Users</a></li>
+			<li><a href="{% url 'news-news' %}">{% icon 'envelope' %} News</a></li>
+			<li><a href="/problems">{% icon 'th' %} Problems</a></li>
+			<li><a href="/contests">{% icon 'calendar' %} Contests</a></li>
+			<li><a href="/tags/">{% icon 'tag' %} Tags</a></li>
 			<br/>
-			<li><a href="{% url 'accounts-settings' %}"><i class="icon-wrench"></i> Settings</a></li>
-			<li><a href="/help/"><i class="icon-question-sign"></i> Help</a></li>
+			<li><a href="{% url 'accounts-settings' %}">{% icon 'wrench' %} Settings</a></li>
+			<li><a href="/help/">{% icon 'question-sign' %} Help</a></li>
 		</ul>
 	</div>
 	<div class="span10">

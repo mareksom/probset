@@ -1,4 +1,5 @@
 {% load bbcode %}
+{% load icon %}
 
 <div class="news">
 	<div class="bar">
@@ -19,7 +20,7 @@
 			{% if news.user == user and not noedit %}
 				<div class="edit">
 					<a href="{% url 'news-edit' news.id %}">
-						<i class="icon icon-edit icon-white"></i>
+						{% icon 'edit' True %}
 					</a>
 				</div>
 			{% endif %}

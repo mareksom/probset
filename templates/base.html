@@ -1,5 +1,7 @@
 {% load staticfiles %}
 
+{% load icon %}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -71,7 +73,7 @@
 								{% if user.is_authenticated %}
 									<ul class="nav">
 										<li> <a> {{ user.get_full_name }} </a> </li>
-										<li> <a href="/accounts/logout"> Log out&nbsp;&nbsp;&nbsp;<i class="icon-off icon-white"></i> </a> </li>
+										<li> <a href="/accounts/logout"> Log out&nbsp;&nbsp;&nbsp;{% icon 'off' True %} </a> </li>
 									</ul>
 								{% endif %}
 							{% endblock %}
