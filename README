@@ -1,0 +1,19 @@
+1. This site requires Python 3.
+
+2. Install Django framework:
+> pip install Django==1.6.2
+
+3. Install Pygments package for coloring code on site:
+> pip install pygments
+
+4. From external site http://code.google.com/p/postmarkup/downloads/list, download postmarkup-1.2.0.tar.gz and install:
+> tar xzf postmarkup-1.2.0.tar.gz
+> cd postmarkup-1.2.0.tar.gz
+> python3 setup.py install
+
+5. Setup django project:
+> ./manage.py syncdb
+In this step you should create a superuser.
+
+6. Run temporary server:
+> ./manage.py runserver
