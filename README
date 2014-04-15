@@ -8,7 +8,7 @@
 
 4. From external site http://code.google.com/p/postmarkup/downloads/list, download postmarkup-1.2.0.tar.gz and install:
 > tar xzf postmarkup-1.2.0.tar.gz
-> cd postmarkup-1.2.0.tar.gz
+> cd postmarkup-1.2.0
 > python3 setup.py install
 
 5. Setup django project:
