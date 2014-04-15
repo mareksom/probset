@@ -1,0 +1,80 @@
+.news
+{
+	position: relative;
+	background-color: white;
+	border-radius: 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #aaa;
+	margin-bottom: 25px;
+	padding: 0px;
+}
+.news:hover
+{
+	background-color: #f0f0f0;
+}
+.news > .bar
+{
+	position: relative;
+	background-color: #3a87ad;
+	float: left;
+	font-weight: bold;
+	color: white;
+	border-radius: 5px 5px 0px 0px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #aaa;
+	margin-top: -1px;
+	margin-left: -1px;
+	width: 100%;
+	padding: 0px;
+}
+.news > .bar > .title
+{
+	float: left;
+	font-size: 21px;
+	padding: 8px;
+	margin: 0px;
+}
+.news > .bar > .info
+{
+	float: right;
+	font-size: 12px;
+	padding: 5px;
+	padding-top: 8px;
+}
+.news > .bar > .info > .user
+{
+	float: left;
+	background-color: #b94a48;
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin-right: 5px;
+}
+.news > .bar > .info > .user > a
+{
+	color: white;
+}
+.news > .bar > .info > .date
+{
+	float: left;
+	background-color: #f89406;
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin-right: 5px;
+}
+.news > .bar > .info > .edit
+{
+	float: right;
+	background-color: #333;
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+.news > .body
+{
+	padding: 6px;
+	padding-top: 45px;
+}

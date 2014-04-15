@@ -1,0 +1,46 @@
+{% extends "menu.html" %}
+
+{% block head_title %}
+Write a message
+{% endblock %}
+
+{% block content %}
+<h1>Write a message</h1>
+
+{% if preview %}
+	{% include "news/one_news.html" with news=news noedit=True %}
+{% endif %}
+
+<form method="post" class="form-horizontal">
+{% csrf_token %}
+
+	<div class="control-group{% if error.title %} error{% endif %}">
+		<label class="control-label" for="input_title">Title</label>
+		<div class="controls">
+			<input type="text" name="title" id="input_title" placeholder="Title" class="span6" value="{{ news.title }}" />
+			{% if error.title %}
+				<span class="help-inline">{{ error.title }}</span>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="control-group{% if error.text %} error{% endif %}">
+		<label class="control-label" for="input_text">Message</label>
+		<div class="controls">
+			<textarea id="input_text" name="text" placeholder="Write Your message here." class="span6" style="height: 250px;"
+				>{{ news.text }}</textarea>
+			{% if error.text %}
+				<span class="help-inline">{{ error.text }}</span>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" name="preview" class="btn btn-primary">Preview</button>
+			<button type="submit" name="add" class="btn btn-success">Create the message</button>
+		</div>
+	</div>
+
+</form>
+{% endblock %}

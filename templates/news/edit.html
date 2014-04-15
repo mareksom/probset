@@ -1,0 +1,56 @@
+{% extends "menu.html" %}
+
+{% load dialog %}
+
+{% block head_title %}
+Edit '{{ news.title }}'
+{% endblock %}
+
+{% block content %}
+<h1>Edit '{{ news.title }}'</h1>
+
+{% if preview %}
+	{% include "news/one_news.html" with news=news noedit=True %}
+{% endif %}
+
+<form method="post" class="form-horizontal">
+
+{% csrf_token %}
+
+	<div class="control-group{% if error.title %} error{% endif %}">
+		<label class="control-label" for="input_title">Title</label>
+		<div class="controls">
+			<input type="text" class="span6" name="title" id="input_title" placeholder="Title" value="{{ news.title }}" />
+			{% if error.title %}
+				<span class="help-inline">{{ error.title }}</span>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="control-group{% if error.text %} error{% endif %}">
+		<label class="control-label" for="input_text">Message</label>
+		<div class="controls">
+			<textarea name="text" class="span6" style="height: 250px;" id="input_text" placeholder="Write Your message here.">{{ news.text }}</textarea>
+			{% if error.text %}
+				<span class="help-inline">{{ error.text }}</span>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" name="preview" class="btn btn-primary">Preview</button>
+			<button type="submit" name="edit" class="btn btn-success">Edit</button>
+			{% dialog remove_dialog Remove "btn btn-danger" %}
+				Confirmation
+			{% body %}
+				Are you sure, you want to delete this message?
+			{% buttons %}
+				<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">No</button>
+				<button type="submit" name="remove" class="btn btn-danger">Remove</button>
+			{% enddialog %}
+		</div>
+	</div>
+
+</form>
+{% endblock %}

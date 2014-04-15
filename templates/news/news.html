@@ -1,0 +1,52 @@
+{% extends "menu.html" %}
+
+{% block head_title %}
+Breaking news
+{% endblock %}
+
+{% block content %}
+
+{% block write %}
+<a style="float: right" href="{% url 'news-add' %}" class="btn btn-success">Write a message</a>
+{% endblock %}
+
+<h1>Breaking news</h1>
+
+{% for news in latest_news_list %}
+	{% include "news/one_news.html" with news=news %}
+{% empty %}
+<p>No news are available.</p>
+{% endfor %}
+
+{% if pages|length != 1 %}
+<div class="pagination pagination-centered">
+	<ul>
+
+		{% if page == 1 %}
+			<li class="disabled"><a>&laquo;</a>
+		{% else %}
+			<li><a href="{% url 'news-news' prev_page %}">&laquo;</a></li>
+		{% endif %}
+
+		{% for pag in pages %}
+			{% if pag == "..." %}
+				<li class="disabled"><a>...</a></li>
+			{% else %}
+				{% if pag == page %}
+					<li class="active"><a>{{ pag }}</a></li>
+				{% else %}
+					<li><a href="{% url 'news-news' pag %}">{{ pag }}</a></li>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+
+		{% if page == last_page %}
+			<li class="disabled"><a>&raquo;</a></li>
+		{% else %}
+			<li><a href="{% url 'news-news' next_page %}">&raquo;</a></li>
+		{% endif %}
+	</ul>
+</div>
+{% endif %}
+
+{% endblock %}

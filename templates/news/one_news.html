@@ -1,0 +1,33 @@
+{% load bbcode %}
+
+<div class="news">
+	<div class="bar">
+		<div class="title">
+			{{ news.title }}
+		</div>
+		<div class="info">
+			<div class="user">
+				<a href="{% url 'accounts-user' news.user.id %}">{{ news.user.get_full_name }}</a>
+				</div>
+			<div class="date">
+				{% if news.edited_date %}
+					{{ news.edited_date }}
+				{% else %}
+					{% now "jS F Y H:i" %}
+				{% endif %}
+			</div>
+			{% if news.user == user and not noedit %}
+				<div class="edit">
+					<a href="{% url 'news-edit' news.id %}">
+						<i class="icon icon-edit icon-white"></i>
+					</a>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="body">
+		{% bbcode %}
+			{{ news.text | safe }}
+		{% endbbcode %}
+	</div>
+</div>
