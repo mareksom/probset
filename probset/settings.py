@@ -40,6 +40,7 @@ INSTALLED_APPS = (
 	'accounts',
 	'news',
 	'help',
+	'tags',
 )
 
 MIDDLEWARE_CLASSES = (

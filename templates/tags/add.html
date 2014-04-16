@@ -1,0 +1,49 @@
+{% extends "menu.html" %}
+
+{% block head_title %}
+New tag
+{% endblock %}
+
+{% block content %}
+<h1>New tag</h1>
+
+<form method="POST" class="form-horizontal">
+
+{% csrf_token %}
+
+<div class="control-group{% if error.name %} error{% endif %}">
+	<label class="control-label" for="input_name">Name</label>
+	<div class="controls">
+		<input type="text" name="name" id="input_name" maxlength="100" class="span4" value="{{ tag.name }}" />
+		{% if error.name %}
+			<span class="help-inline">{{ error.name }}</span>
+		{% endif %}
+	</div>
+</div>
+
+<div class="control-group{% if error.short %} error{% endif %}">
+	<label class="control-label" for="input_short">Short name</label>
+	<div class="controls">
+		<input type="text" name="short" id="input_short" maxlength="5" class="span4" value="{{ tag.short }}" />
+		{% if error.short %}
+			<span class="help-inline">{{ error.short }}</span>
+		{% endif %}
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label" for="input_color">Color</label>
+	<div class="controls">
+		<input type="text" name="color" id="input_color" value="{{ tag.color }}" class="span4 color" />
+	</div>
+</div>
+
+<div class="control-group">
+	<div class="controls">
+		<button type="submit" class="btn btn-success">Add</button>
+	</div>
+</div>
+
+</form>
+
+{% endblock %}

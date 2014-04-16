@@ -1,0 +1,58 @@
+{% extends "menu.html" %}
+
+{% load tags %}
+{% load icon %}
+
+{% block head_title %}
+Tags
+{% endblock %}
+
+{% block content %}
+<div style="float: right;">
+	<div style="float: left;">
+	<form method="get" class="form-search">
+		<div class="input-append">
+			<input type="text" name="search" value="{{ search }}" class="search-query" {% if search %}autofocus{% endif %}/>
+			<button type="submit" class="btn">Search</button>
+		</div>
+	</form>
+	</div>
+	<div style="float: right; margin-left: 20px;">
+	<a href="{% url 'tags-add' %}" class="btn btn-success">New tag</a>
+	</div>
+</div>
+<h1>Tags</h1>
+
+{% if tags %}
+
+	<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Short name</th>
+			<th>Color</th>
+			<th>Edit</th>
+		</tr>
+	</thead>
+	{% for tag in tags %}
+		<tr>
+			<td>{{ tag.name }}</td>
+			<td>{% puttag tag %}</td>
+			<td>{% puttag tag color=True %}</td>
+			<td>
+				<a href="{% url 'tags-edit' tag.id %}">
+					<span class="label label-success">
+						{% icon 'edit' True %}
+							Edit
+					</span>
+				</a>
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+
+{% else %}
+	There are no tags available :(
+{% endif %}
+
+{% endblock %}
