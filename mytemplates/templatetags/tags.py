@@ -11,12 +11,15 @@ def textcolor(color):
 	return '#fff'
 
 @register.simple_tag
-def puttag(tag, color = False, apo = False):
+def puttag(tag, color = False, apo = False, full=False):
 	if color:
 		text = tag.color
 		title = ''
 	else:
-		text = tag.short
+		if full:
+			text = tag.name
+		else:
+			text = tag.short
 		title = tag.name
 	if apo:
 		string = "<span title='{}' class='label' style='background-color: {}; color: {};'>{}</span>"

@@ -1,6 +1,6 @@
 {% extends "menu.html" %}
 
-{% load bbcode %}
+{% load badges %}
 {% load tags %}
 {% load icon %}
 
@@ -17,34 +17,19 @@
 	{% for tag in problem.tags.all %}
 		{% puttag tag %}
 	{% endfor %}
+	&nbsp; &nbsp; &nbsp;
+	{% difficulty problem.difficulty %}
+	{% coolness problem.coolness %}
 </div>
 <div style="clear: both;"></div>
 
-<div class="description">
-	<div class="bar">
-		<div class="left">
-			Description
-		</div>
-		<div class="right">
-			<span class="label label-important">
-				<a href="{% url 'accounts-user' problem.user.id %}">
-					{{ problem.user.get_full_name }}
-				</a>
-			</span>
-			<span class="label label-warning">
-				{{ problem.created_date }}
-			</span>
-		</div>
-		<div style="clear: both"></div>
-	</div>
-	<div class="content">
-		{% bbcode %}
-			{{ problem.description | safe }}
-		{% endbbcode %}
-	</div>
-</div>
-
 <ul class="nav nav-pills">
+
+	<li{% if tab == "info" %} class="active"{% endif %}>
+		<a href="{% url 'problems-problem-info' problem.id %}">
+			{% icon 'fire' %} Info
+		</a>
+	</li>
 
 	<li{% if tab == "task" %} class="active"{% endif %}>
 		<a href="{% url 'problems-problem-task' problem.id %}">

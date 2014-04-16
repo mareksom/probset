@@ -1,0 +1,63 @@
+{% extends "problems/problem/menu.html" %}
+
+{% load bbcode %}
+{% load badges %}
+{% load tags %}
+
+{% block tab %}
+<table class="table table-bordered table-striped">
+	<tr>
+		<td colspan="2" style="background-color: #3a87ad; border-color: #aaa; color: white; font-weight: bold; font-size: 150%;">
+			Description
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			{% bbcode %}
+				{{ problem.description | safe }}
+			{% endbbcode %}
+		</td>
+	</tr>
+	<tr>
+		<th>Title</th>
+		<td>{{ problem.title }}</td>
+	</tr>
+	<tr>
+		<th>Author</th>
+		<td>{{ problem.author }}</td>
+	</tr>
+	<tr>
+		<th>Created</th>
+		<td>{{ problem.created_date }}</td>
+	</tr>
+	<tr>
+		<th>Last edit</th>
+		<td>{{ problem.edited_date }}</td>
+	</tr>
+	<tr>
+		<th>Difficulty</th>
+		<td>{% difficulty problem.difficulty %}</td>
+	</tr>
+	<tr>
+		<th>Coolness</th>
+		<td>{% coolness problem.coolness %}</td>
+	</tr>
+	<tr>
+		<th>Tags</th>
+		<td>
+			{% for tag in problem.tags.all %}
+				{% puttag tag full=True %}
+			{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<th>Added by</th>
+		<td>
+			<a href="{% url 'accounts-user' problem.user.id %}">
+				{{ problem.user.get_full_name }}
+			</a>
+		</td>
+	</tr>
+</table>
+
+{% endblock %}

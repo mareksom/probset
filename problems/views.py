@@ -12,6 +12,19 @@ from utils.pages import compute_pages
 from utils.sort import pl_filter
 
 @login_required
+def info(request, ID):
+	try:
+		problem = Problem.objects.get(id = ID)
+	except Problem.DoesNotExist:
+		error_msg(requesst, "Problem with id={} does not exist.".format(ID))
+		return redirect('problems-problems')
+
+	context = {}
+	context['problem'] = problem
+	context['tab'] = 'info'
+	return render(request, 'problems/problem/info.html', context)
+
+@login_required
 def comments_edit(request, ID, comID):
 	try:
 		problem = Problem.objects.get(id = ID)
@@ -225,7 +238,7 @@ def task(request, ID):
 
 @login_required
 def problem(request, ID):
-	return redirect('problems-problem-task', ID)
+	return redirect('problems-problem-info', ID)
 
 @login_required
 def problems(request):
