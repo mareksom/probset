@@ -20,7 +20,7 @@ There are no comments :(
 		{% if page == 1 %}
 			<li class="disabled"><a>&laquo;</a>
 		{% else %}
-			<li><a href="/problems/{{ problem.id }}/comments/{{ prev_page }}/">&laquo;</a></li>
+			<li><a href="{% url 'problems-problem-comments' problem.id prev_page %}">&laquo;</a></li>
 		{% endif %}
 
 		{% for pag in pages %}
@@ -30,7 +30,7 @@ There are no comments :(
 				{% if pag == page %}
 					<li class="active"><a>{{ pag }}</a></li>
 				{% else %}
-					<li><a href="/problems/{{ problem.id }}/comments/{{ pag }}/">{{ pag }}</a></li>
+					<li><a href="{% url 'problems-problem-comments' problem.id pag %}">{{ pag }}</a></li>
 				{% endif %}
 			{% endif %}
 		{% endfor %}
@@ -38,7 +38,7 @@ There are no comments :(
 		{% if page == last_page %}
 			<li class="disabled"><a>&raquo;</a></li>
 		{% else %}
-			<li><a href="/problems/{{ problem.id }}/comments/{{ next_page }}/">&raquo;</a></li>
+			<li><a href="{% url 'problems-problem-comments' problem.id next_page %}">&raquo;</a></li>
 		{% endif %}
 	</ul>
 </div>
