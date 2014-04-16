@@ -141,6 +141,7 @@ def new(request):
 		problem.title = request.POST.get('title','')
 		problem.author = request.POST.get('author','')
 		problem.description = request.POST.get('description','')
+		problem.task = request.POST.get('task', '')
 		problem.user = request.user
 		try: problem.difficulty = int(request.POST.get('difficulty', '0'))
 		except ValueError: problem.difficulty = 0
@@ -149,13 +150,16 @@ def new(request):
 
 		try:
 			problem.save()
+
 			for tag_id in request.POST.getlist('tags'):
 				try:
 					tag_obj = Tag.objects.get(id = tag_id)
 					problem.tags.add(tag_obj)
 				except tag.DoesNotExist: pass
+
 			success_msg(request, "The problem was created successfully.")
 			return redirect('problems-problem', problem.id)
+
 		except problem.Error as error:
 			error_msg(request, "Could not create the problem because of some errors.")
 			context['error'] = error
@@ -180,11 +184,11 @@ def edit(request, ID):
 	try:
 		problem = Problem.objects.get(id = ID)
 	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id = {} does not exist.".format(ID))
+		error_msg(request, "Problem with id={} does not exist.".format(ID))
 		return redirect('problems-problems')
 	
 	if request.user != problem.user:
-		error_msg(request, "You don't have permissions to edit the problem with id = {}".format(ID))
+		error_msg(request, "You don't have permissions to edit the problem with id={}".format(ID))
 		return redirect('problems-problems')
 
 	context = {'problem' : problem, 'tab' : 'edit'}
@@ -202,6 +206,7 @@ def edit(request, ID):
 		problem.title = request.POST.get('title','')
 		problem.author = request.POST.get('author','')
 		problem.description = request.POST.get('description','')
+		problem.task = request.POST.get('task', '')
 
 		try: problem.difficulty = int(request.POST.get('difficulty','0'))
 		except ValueError: problem.difficulty = 0
@@ -219,6 +224,7 @@ def edit(request, ID):
 		try:
 			problem.save()
 			success_msg(request, "The problem was edited successfully.")
+
 		except problem.Error as error:
 			error_msg(request, "Couldn't edit the problem because of some errors.")
 			context['error'] = error

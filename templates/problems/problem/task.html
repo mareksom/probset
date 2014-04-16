@@ -1,5 +1,26 @@
 {% extends "problems/problem/menu.html" %}
 
+{% load bbcode %}
+
 {% block tab %}
-task
+
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<td style="background-color: #3a87ad; color: white; font-weight: bold; font-size: 150%;">
+				Task
+			</td>
+		</tr>
+	</thead>
+
+	<tr>
+		<td>
+			{% bbcode %}
+				{{ problem.task | safe }}
+			{% endbbcode %}
+		</td>
+	</tr>
+
+</table>
+
 {% endblock %}
