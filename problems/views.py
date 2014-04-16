@@ -59,7 +59,7 @@ def comments_edit(request, ID, comID):
 	
 	context['comment'] = comment
 
-	return render(request, 'problems/problem/comments_edit.html', context)
+	return render(request, 'problems/problem/comments/comments_edit.html', context)
 
 @login_required
 def comments_add(request, ID):
@@ -94,7 +94,7 @@ def comments_add(request, ID):
 	
 	context['comment'] = comment
 
-	return render(request, 'problems/problem/comments_add.html', context)
+	return render(request, 'problems/problem/comments/comments_add.html', context)
 
 @login_required
 def comments(request, ID, page=1):
@@ -142,7 +142,7 @@ def new(request):
 					problem.tags.add(tag_obj)
 				except tag.DoesNotExist: pass
 			success_msg(request, "The problem was created successfully.")
-			return redirect("/problems/{}/".format(problem.id))
+			return redirect('problems-problem', problem.id)
 		except problem.Error as error:
 			error_msg(request, "Could not create the problem because of some errors.")
 			context['error'] = error

@@ -8,7 +8,7 @@
 <h1>Comments</h1>
 
 {% for comment in comments %}
-	{% include "problems/problem/comment.html" with comment=comment %}
+	{% include "problems/problem/comments/comment.html" with comment=comment %}
 {% empty %}
 There are no comments :(
 {% endfor %}
