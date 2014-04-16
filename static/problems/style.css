@@ -1,0 +1,49 @@
+.description
+{
+	background-color: white;
+	border-radius: 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #aaa;
+	padding: 0px;
+	margin-bottom: 10px;
+}
+
+.description:hover
+{
+	background-color: #f0f0f0;
+}
+
+.description > .bar
+{
+	background-color: #3a87ad;
+	border-radius: 5px 5px 0px 0px;
+	margin-left: -1px;
+	margin-top: -1px;
+	margin-right: -1px;
+	padding: 8px;
+}
+
+.description > .bar > .left
+{
+	float: left;
+	margin: 0px;
+	color: white;
+	font-weight: bold;
+	font-size: 21px;
+}
+
+.description > .bar > .right
+{
+	float: right;
+}
+
+.description > .bar > .right a
+{
+	color: white;
+}
+
+.description > .content
+{
+	padding: 10px;
+}

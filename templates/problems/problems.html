@@ -1,0 +1,98 @@
+{% extends "menu.html" %}
+
+{% load badges %}
+{% load tags %}
+
+{% block head_title %}
+Problems
+{% endblock %}
+
+{% block content %}
+<div style="float: right">
+	<a href="{% url 'problems-new' %}" class="btn btn-success">Create a new problem</a>
+</div>
+
+<h1>Problems</h1>
+
+<table class="table table-striped">
+<thead>
+	<tr>
+		<form id="search_form" method="get" class="form-search">
+			<th>
+				<div style="float: left; padding-top: 5px;">
+					Title
+				</div>
+				<div style="float: right;">
+					<div style="float: left; margin-bottom: 0px; padding-top: 5px; padding-right: 5px;">
+						<input style="margin-top: -6px; width: 100px;" type="text" name="search_title" class="search-query"
+							value="{{ search.title }}" />
+					</div>
+					<div style="float: right; margin-bottom: -10px;">
+						<select name="tags" class="selectpicker" data-style="btn-inverse" title="Tags" data-live-search="true" data-width="92px" multiple
+						onchange="setTimeout('document.getElementById(\'search_form\').submit()',1000);">
+							{% for tag in tags %}
+								<option value="{{ tag.id }}" data-content="{% puttag tag apo=True %} {{ tag.name }}"{% if tag.id in selected_tags %} selected{% endif %}></option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+			</th>
+			<th>
+				<div style="margin-bottom: -10px;">
+				<select name="difficulty" class="selectpicker" data-style="btn-inverse" title="Difficulty" data-width="92px" multiple
+					onchange="setTimeout('document.getElementById(\'search_form\').submit()',1000);">
+					{% for i in "01234" %}
+						<option data-content="{% difficulty i apo=True %}&nbsp;&nbsp;&nbsp;&nbsp;" value="{{ i }}"{% if i|add:0 in difficulty %} selected{% endif %}></option>
+					{% endfor %}
+				</select>
+				</div>
+			</th>
+			<th>
+				<div style="margin-bottom: -10px;">
+				<select name="coolness" class="selectpicker" data-style="btn-inverse" title="Coolness" data-width="92px" multiple
+					onchange="setTimeout('document.getElementById(\'search_form\').submit()',1000);">
+					{% for i in "01234" %}
+						<option data-content="{% coolness i apo=True %}&nbsp;&nbsp;&nbsp;&nbsp;" value="{{ i }}"{% if i|add:0 in coolness %} selected{% endif %}></option>
+					{% endfor %}
+				</select>
+				</div>
+			</th>
+			<th>Author</th>
+			<th>Date</th>
+			<th>Added by</th>
+		</form>
+	</tr>
+</thead>
+{% for problem in problems %}
+<tr>
+	<td>
+		<div style="float: left;">
+			<a href="{% url 'problems-problem' problem.id %}">{{ problem.title }}</a>
+		</div>
+		<div style="float: right;">
+			{% for tag in problem.tags.all %}
+				{% puttag tag %}
+			{% endfor %}
+		</div>
+	</td>
+	<td><center>{% difficulty problem.difficulty %}</center></td>
+	<td><center>{% coolness problem.coolness %}</center></td>
+	<td>{{ problem.author }}</td>
+	<td>{{ problem.created_date }}</td>
+	<td><a href="{% url 'accounts-user' problem.user.id %}">{{ problem.user.get_full_name }}</a></td>
+</tr>
+{% empty %}
+<tr>
+	<td>
+		There are no problems available.
+	</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

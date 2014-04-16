@@ -1,0 +1,31 @@
+{% extends "problems/problem/menu.html" %}
+
+{% block tab %}
+
+<h1>Add a comment</h1>
+
+{% if preview %}
+	{% include "problems/problem/comment.html" with comment=comment %}
+{% endif %}
+
+<form method="POST" class="form-horizontal">
+
+{% csrf_token %}
+
+<div class="control-group">
+	<label class="control-label" for="input_comment">Comment</label>
+	<div class="controls">
+		<textarea name="comment" id="input_comment" class="span6" style="height: 250px;">{{ comment.comment }}</textarea>
+	</div>
+</div>
+
+<div class="control-group">
+	<div class="controls">
+		<button type="submit" name="preview" class="btn btn-primary">Preview</button>
+		<button type="submit" name="send" class="btn btn-success">Send</button>
+	</div>
+</div>
+
+</form>
+
+{% endblock %}

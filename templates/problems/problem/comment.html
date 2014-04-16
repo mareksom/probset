@@ -1,0 +1,25 @@
+{% load bbcode %}
+
+<div class="comment">
+	<div class="bar">
+		<div class="left label label-important">
+			<a href="/accounts/{{ comment.user.id }}/">{{ comment.user.get_full_name }}</a>
+		</div>
+		<div class="right">
+			<span class="label label-warning">
+				{{ comment.date }}
+			</span>
+			{% if comment.user == user %}
+			<span class="label label-inverse">
+				<a href="/problems/{{ problem.id }}/comments/edit/{{ comment.id }}/"><i class="icon-edit icon-white"></i></a>
+			</span>
+			{% endif %}
+		</div>
+		<div style="clear: both;"></div>
+	</div>
+	<div class="content">
+		{% bbcode %}
+			{{ comment.comment }}
+		{% endbbcode %}
+	</div>
+</div>

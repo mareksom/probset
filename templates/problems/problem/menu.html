@@ -1,0 +1,87 @@
+{% extends "menu.html" %}
+
+{% load bbcode %}
+{% load tags %}
+{% load icon %}
+
+{% block head_title %}
+{{ problem.title }}
+{% endblock %}
+
+{% block content %}
+<div style="float: right">
+	<h3>{{ problem.author }}</h3>
+</div>
+<h1>{{ problem.title }}</h1>
+<div style="float: right; margin-bottom: 10px;">
+	{% for tag in problem.tags.all %}
+		{% puttag tag %}
+	{% endfor %}
+</div>
+<div style="clear: both;"></div>
+
+<div class="description">
+	<div class="bar">
+		<div class="left">
+			Description
+		</div>
+		<div class="right">
+			<span class="label label-important">
+				<a href="{% url 'accounts-user' problem.user.id %}">
+					{{ problem.user.get_full_name }}
+				</a>
+			</span>
+			<span class="label label-warning">
+				{{ problem.created_date }}
+			</span>
+		</div>
+		<div style="clear: both"></div>
+	</div>
+	<div class="content">
+		{% bbcode %}
+			{{ problem.description | safe }}
+		{% endbbcode %}
+	</div>
+</div>
+
+<ul class="nav nav-pills">
+
+	<li{% if tab == "task" %} class="active"{% endif %}>
+		<a href="{% url 'problems-task' problem.id %}">
+			{% icon 'th-large' %} Task
+		</a>
+	</li>
+{% comment %}
+
+	<li>
+		<a href="#">
+			{% icon 'eye-open' %} Solution
+		</a>
+	</li>
+
+	<li>
+		<a href="#">
+			{% icon 'download-alt' %} Tests
+		</a>
+	</li>
+
+	<li{% if tab == "comments" %} class="active"{% endif %}>
+		<a href="/problems/{{ problem.id }}/comments/">
+			<i class="icon-comment"></i> Comments
+		</a>
+	</li>
+{% endcomment %}
+
+	{% if problem.user == user %}
+	<li{% if tab == "edit" %} class="active"{% endif %}>
+		<a href="{% url 'problems-edit' problem.id %}">
+			{% icon 'edit' %} Edit
+		</a>
+	</li>
+	{% endif %}
+</ul>
+
+{% block tab %}
+{% endblock %}
+
+{% endblock %}

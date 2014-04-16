@@ -1,0 +1,89 @@
+{% extends "menu.html" %}
+
+{% load badges %}
+{% load tags %}
+
+{% block head_title %}
+New problem
+{% endblock %}
+
+{% block content %}
+<h1>Create a new problem</h1>
+
+<form method="POST" class="form-horizontal">
+{% csrf_token %}
+
+	<div class="control-group{% if error.title %} error{% endif %}">
+		<label class="control-label" for="input_title">Title</label>
+		<div class="controls">
+			<input type="text" name="title" class="span6" id="input_title" placeholder="Title" value="{{ problem.title }}" />
+			{% if error.title %}
+				<span class="help-inline">{{ error.title }}</span>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="control-group{% if error.author %} error{% endif %}">
+		<label class="control-label" for="input_author">Author</label>
+		<div class="controls">
+			<input type="text" name="author" class="span6" id="input_author" placeholder="Author" value="{{ problem.author }}" />
+			{% if error.author %}
+				<span class="help-inline">{{ error.author }}</span>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="input_description">Description</label>
+		<div class="controls">
+			<textarea name="description" class="span6" style="height: 250px;" id="input_description"
+				placeholder="Description">{{ problem.description }}</textarea>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="input_difficulty">Difficulty</label>
+		<div class="controls">
+			<select name="difficulty" id="input_difficulty" class="selectpickter">
+				{% for i in "01234" %}
+					<option data-content="{% difficulty i True %}" value="{{ i }}"{% if i|add:0 = problem.difficulty %} selected{% endif %}>
+						{% difficulty i %}
+					</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="input_coolness">Coolness</label>
+		<div class="controls">
+			<select name="coolness" id="input_coolness" class="selectpickter">
+				{% for i in "01234" %}
+					<option data-content="{% coolness i True %}" value="{{ i }}"{% if i|add:0 = problem.coolness %} selected{% endif %}>
+						{% coolness i %}
+					</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="input_tags">Tags</label>
+		<div class="controls">
+			<select name="tags" id="input_tags" class="span6 selectpicker" data-live-search="true" multiple>
+				{% for tag in tags %}
+					<option value="{{ tag.id }}" data-content="{% puttag tag apo=True %} {{ tag.name }}"{% if tag.id in selected_tags %} selected{% endif %}>{{ tag.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" class="btn btn-primary">Create</button>
+		</div>
+	</div>
+
+</form>
+
+{% endblock %}
