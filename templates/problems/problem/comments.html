@@ -3,7 +3,7 @@
 {% block tab %}
 
 <div style="float: right;">
-	<a href="/problems/{{ problem.id }}/comments/add/" class="btn btn-success">Add a comment</a>
+	<a href="{% url 'problems-problem-comments-add' problem.id %}" class="btn btn-success">Add a comment</a>
 </div>
 <h1>Comments</h1>
 

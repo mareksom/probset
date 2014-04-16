@@ -4,104 +4,119 @@ from django.utils import timezone
 from django.db.models import Q
 
 from problems.models import Problem
-#from comments.models import Comment
+from comments.models import Comment
 from tags.models import Tag
 
 from utils.messages import error_msg, success_msg
 from utils.pages import compute_pages
 from utils.sort import pl_filter
 
-#@login_required
-#def comments_edit(request, ID, comID):
-#	try:
-#		problem = Problem.objects.get(id = ID)
-#	except Problem.DoesNotExist:
-#		error_msg(request, "Problem with id = {} does not exist.".format(ID))
-#		return redirect('/problems/')
-#	
-#	try:
-#		comment = Comment.objects.get(id = comID)
-#	except Comment.DoesNotExist:
-#		error_msg(request, "Comment with id = {} does not exist.".format(comID))
-#		return redirect('/problems/{}/comments/'.format(ID))
-#	
-#	if comment.problem != problem:
-#		error_msg(request, "Comment {} does not belong to problem {}.".format(comID, ID))
-#		return redirect('/problems/')
-#	
-#	if comment.user != request.user:
-#		error_msg(request, "You don't have permissions to edit this comment.")
-#		return redirect('/problems/{}/comments/'.format(ID))
-#	
-#	context = {'problem' : problem, 'tab': 'comments'}
-#
-#	if request.method == "POST":
-#		comment.comment = request.POST.get('comment', '')
-#		comment.date = timezone.now()
-#		if request.POST.get('preview', 'nie') != 'nie':
-#			context['preview'] = True
-#		elif request.POST.get('edit', 'nie') != 'nie':
-#			comment.save()
-#			success_msg(request, "Your comment was edited successfully.")
-#			return redirect('/problems/{}/comments/'.format(ID))
-#		else:
-#			comment.delete()
-#			success_msg(request, "Your comment was successfully deleted.")
-#			return redirect('/problems/{}/comments/'.format(ID))
-#	
-#	context['comment'] = comment
-#
-#	return render(request, 'problems/problem/comments_edit.html', context)
-#
-#@login_required
-#def comments_add(request, ID):
-#	try:
-#		problem = Problem.objects.get(id = ID)
-#	except Problem.DoesNotExist:
-#		error_msg(request, "Problem with id = {} does not exist.".format(ID))
-#		return redirect('/problems/')
-#	
-#	comment = Comment()
-#	comment.user = request.user
-#
-#	context = {'problem' : problem, 'tab': 'comments'}
-#
-#	if request.method == "POST":
-#		comment.comment = request.POST.get('comment', '')
-#		comment.problem = problem
-#		comment.date = timezone.now()
-#		if request.POST.get('preview', 'nie') != 'nie':
-#			context['preview'] = True
-#		else:
-#			comment.save()
-#			success_msg(request, "Your comment was added successfully.")
-#			return redirect('/problems/{}/comments/'.format(ID))
-#	
-#	context['comment'] = comment
-#
-#	return render(request, 'problems/problem/comments_add.html', context)
-#
-#@login_required
-#def comments(request, ID, page=1):
-#	page = int(page)
-#	per_page = 10
-#
-#	try:
-#		problem = Problem.objects.get(id = ID)
-#	except Problem.DoesNotExist:
-#		error_msg(request, "Problem with id = {} does not exist.".format(ID))
-#		return redirect('/problems/')
-#	
-#	context = compute_pages(page, problem.comment_set.count(), per_page)
-#
-#	context['problem'] = problem
-#	context['tab'] = 'comments'
-#
-#	comments = problem.comment_set.order_by('-date')[(page-1)*per_page:page*per_page].all()
-#
-#	context['comments'] = comments
-#
-#	return render(request, 'problems/problem/comments.html', context)
+@login_required
+def comments_edit(request, ID, comID):
+	try:
+		problem = Problem.objects.get(id = ID)
+	except Problem.DoesNotExist:
+		error_msg(request, "Problem with id={} does not exist.".format(ID))
+		return redirect('problems-problems')
+	
+	try:
+		comment = Comment.objects.get(id = comID)
+	except Comment.DoesNotExist:
+		error_msg(request, "Comment with id = {} does not exist.".format(comID))
+		return redirect('problems-problem-comments', ID)
+	
+	if comment.problem != problem:
+		error_msg(request, "Comment {} does not belong to problem {}.".format(comID, ID))
+		return redirect('problems-problems')
+	
+	if comment.user != request.user:
+		error_msg(request, "You don't have permissions to edit this comment.")
+		return redirect('problems-problem-comments', ID)
+	
+	context = {'problem' : problem, 'tab': 'comments'}
+
+	if request.method == "POST":
+		comment.comment = request.POST.get('comment', '')
+		comment.date = timezone.now()
+		try:
+			if request.POST.get('preview', 'no-preview') != 'no-preview':
+				context['preview'] = True
+				comment.check()
+
+			elif request.POST.get('edit', 'no-edit') != 'no-edit':
+				comment.save()
+				success_msg(request, "Your comment was edited successfully.")
+				return redirect('problems-problem-comments', ID)
+
+			else:
+				comment.delete()
+				success_msg(request, "Your comment was successfully deleted.")
+				return redirect('problems-problem-comments', ID)
+
+		except comment.Error as error:
+			error_msg(request, "There were some errors while editing your comments.")
+			context['error'] = error
+	
+	context['comment'] = comment
+
+	return render(request, 'problems/problem/comments_edit.html', context)
+
+@login_required
+def comments_add(request, ID):
+	try:
+		problem = Problem.objects.get(id = ID)
+	except Problem.DoesNotExist:
+		error_msg(request, "Problem with id={} does not exist.".format(ID))
+		return redirect('problems-problems')
+	
+	comment = Comment()
+	comment.user = request.user
+
+	context = {'problem' : problem, 'tab': 'comments'}
+
+	if request.method == "POST":
+		comment.comment = request.POST.get('comment', '')
+		comment.problem = problem
+		comment.date = timezone.now()
+		try:
+			if request.POST.get('preview', 'no-preview') != 'no-preview':
+				context['preview'] = True
+				comment.check()
+
+			else:
+				comment.save()
+				success_msg(request, "Your comment was added successfully.")
+				return redirect('problems-problem-comments', ID)
+
+		except comment.Error as error:
+			error_msg(request, "Could not create comment because of error.")
+			context['error'] = error
+	
+	context['comment'] = comment
+
+	return render(request, 'problems/problem/comments_add.html', context)
+
+@login_required
+def comments(request, ID, page=1):
+	page = int(page)
+	per_page = 10
+
+	try:
+		problem = Problem.objects.get(id = ID)
+	except Problem.DoesNotExist:
+		error_msg(request, "Problem with id={} does not exist.".format(ID))
+		return redirect('problems-problems')
+	
+	context = compute_pages(page, problem.comment_set.count(), per_page)
+
+	context['problem'] = problem
+	context['tab'] = 'comments'
+
+	comments = problem.comment_set.order_by('-created_date')[(page-1)*per_page:page*per_page].all()
+
+	context['comments'] = comments
+
+	return render(request, 'problems/problem/comments.html', context)
 
 @login_required
 def new(request):
@@ -210,7 +225,7 @@ def task(request, ID):
 
 @login_required
 def problem(request, ID):
-	return redirect('problems-task', ID)
+	return redirect('problems-problem-task', ID)
 
 @login_required
 def problems(request):

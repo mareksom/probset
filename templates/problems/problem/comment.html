@@ -1,17 +1,22 @@
 {% load bbcode %}
+{% load icon %}
 
 <div class="comment">
 	<div class="bar">
 		<div class="left label label-important">
-			<a href="/accounts/{{ comment.user.id }}/">{{ comment.user.get_full_name }}</a>
+			<a href="{% url 'accounts-user' comment.user.id %}">{{ comment.user.get_full_name }}</a>
 		</div>
 		<div class="right">
 			<span class="label label-warning">
-				{{ comment.date }}
+				{% if comment.created_date %}
+					{{ comment.created_date }}
+				{% else %}
+					{% now "jS F Y H:i" %}
+				{% endif %}
 			</span>
 			{% if comment.user == user %}
 			<span class="label label-inverse">
-				<a href="/problems/{{ problem.id }}/comments/edit/{{ comment.id }}/"><i class="icon-edit icon-white"></i></a>
+				<a href="{% url 'problems-problem-comments-edit' problem.id comment.id %}">{% icon 'edit' True %}</a>
 			</span>
 			{% endif %}
 		</div>
@@ -19,7 +24,7 @@
 	</div>
 	<div class="content">
 		{% bbcode %}
-			{{ comment.comment }}
+			{{ comment.comment | safe }}
 		{% endbbcode %}
 	</div>
 </div>

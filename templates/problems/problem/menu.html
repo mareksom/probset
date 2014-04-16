@@ -47,7 +47,7 @@
 <ul class="nav nav-pills">
 
 	<li{% if tab == "task" %} class="active"{% endif %}>
-		<a href="{% url 'problems-task' problem.id %}">
+		<a href="{% url 'problems-problem-task' problem.id %}">
 			{% icon 'th-large' %} Task
 		</a>
 	</li>
@@ -64,17 +64,17 @@
 			{% icon 'download-alt' %} Tests
 		</a>
 	</li>
+{% endcomment %}
 
 	<li{% if tab == "comments" %} class="active"{% endif %}>
-		<a href="/problems/{{ problem.id }}/comments/">
-			<i class="icon-comment"></i> Comments
+		<a href="{% url 'problems-problem-comments' problem.id %}">
+			{% icon 'comment' %} Comments
 		</a>
 	</li>
-{% endcomment %}
 
 	{% if problem.user == user %}
 	<li{% if tab == "edit" %} class="active"{% endif %}>
-		<a href="{% url 'problems-edit' problem.id %}">
+		<a href="{% url 'problems-problem-edit' problem.id %}">
 			{% icon 'edit' %} Edit
 		</a>
 	</li>

@@ -12,10 +12,13 @@
 
 {% csrf_token %}
 
-<div class="control-group">
+<div class="control-group{% if error.comment %} error{% endif %}">
 	<label class="control-label" for="input_comment">Comment</label>
 	<div class="controls">
 		<textarea name="comment" id="input_comment" class="span6" style="height: 250px;">{{ comment.comment }}</textarea>
+		{% if error.comment %}
+			<span class="help-inline">{{ error.comment }}</span>
+		{% endif %}
 	</div>
 </div>
 
