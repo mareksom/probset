@@ -69,7 +69,12 @@ def login(request):
 		if user is not None:
 			if user.is_active:
 				sup_login(request, user)
-				return redirect('accounts-users')
+
+				page_to_redirect = request.GET.get('next', '')
+				if page_to_redirect:
+					return redirect(page_to_redirect)
+				return redirect('news-news')
+
 			else:
 				error_msg(request, 'Your account is disabled.')
 		else:
