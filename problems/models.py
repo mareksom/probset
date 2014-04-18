@@ -38,6 +38,11 @@ class Problem(models.Model):
 			err.coolness = "Coolness must be an integer from range [0,4]."
 		if err.is_error():
 			raise err
+	
+	def delete(self):
+		for package in self.package_set.all():
+			package.delete()
+		super(Problem, self).delete()
 
 	def save(self):
 		self.check()
