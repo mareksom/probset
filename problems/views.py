@@ -20,37 +20,59 @@ import string
 
 import re
 
-@login_required
-def remove_package(request, ID, packageID):
-	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
+# decorator which handles non-existing problems
+def get_problem(original_function):
+	def new_function(request, **kwargs):
+		try:
+			kwargs['problem'] = Problem.objects.get(id = kwargs['problem'])
+		except Problem.DoesNotExist:
+			error_msg(request, "Problem with id={} does not exist.".format(kwargs['problem']))
+			return redirect('problems-problems')
+		return original_function(request, **kwargs)
+	return new_function
 
-	try:
-		package = Package.objects.get(id = packageID)
-	except Package.DoesNotExist:
-		error_msg(request, "Package with id={} does not exist.".format(packageID))
-		return redirect('problems-problem-packages', ID)
-	
-	if package.problem != problem:
-		error_msg(request, "Package with id={} does not belong to the problem with id={}.".format(packageID, ID))
-		return redirect('problems-problem-packages', ID)
-	
+# decorator which hendles non-existing packages and which checks if package belongs to a problem
+def get_package(original_function):
+	def new_function(request, **kwargs):
+		try:
+			kwargs['package'] = Package.objects.get(id = kwargs['package'])
+		except Package.DoesNotExist:
+			error_msg(request, "Package with id={} does not exist.".format(kwargs['package']))
+			return redirect('problems-problem-packages', kwargs['problem'].id)
+		if kwargs['package'].problem != kwargs['problem']:
+			error_msg(request, "Package with id={} does not belong to this problem.".format(kwargs['package']))
+			return redirect('problems-problem-packages', kwargs['problem'].id)
+		return original_function(request, **kwargs)
+	return new_function
+
+
+@login_required
+@get_problem
+@get_package
+def remove_package(request, problem, package):
 	package.delete()
 	success_msg(request, "Package was successfully deleted.")
 
-	return redirect('problems-problem-packages', ID)
+	return redirect('problems-problem-packages', problem.id)
+
 
 @login_required
-def upload(request, ID):
-	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
-	
+@get_problem
+@get_package
+def download(request, problem, package):
+	file_name = os.path.join(settings.BASE_DIR, package.package.url[1:])
+	file_to_send = open(file_name, 'rb')
+	response = HttpResponse(file_to_send.read(), content_type='application/x-compressed')
+	file_to_send.close()
+
+	response['Content-Disposition'] = 'attachment; filename={}'.format(os.path.split(package.package.url)[-1])
+
+	return response
+
+
+@login_required
+@get_problem
+def upload(request, problem):
 	package = Package()
 	context = {}
 
@@ -65,7 +87,7 @@ def upload(request, ID):
 			package.package.save(request.FILES['input_file'].name, request.FILES['input_file'])
 			package.save()
 			success_msg(request, "Package uploaded successfully.")
-			return redirect('problems-problem-packages', ID)
+			return redirect('problems-problem-packages', problem.id)
 
 	context['problem'] = problem
 	context['package'] = package
@@ -73,41 +95,10 @@ def upload(request, ID):
 
 	return render(request, 'problems/problem/packages/upload.html', context)
 
-@login_required
-def download(request, ID, packageID):
-	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
-	
-	try:
-		package = Package.objects.get(id = packageID)
-	except Package.DoesNotExist:
-		error_msg(request, "Package with id={} does not exist.".format(packageID))
-		return redirect('problems-problem', ID)
-	
-	if package.problem != problem:
-		error_msg(request, "Package with id={} does not belong to the problem with id={}.".format(packageID, ID))
-		return redirect('problems-problem', ID)
-	
-	file_name = os.path.join(settings.BASE_DIR, package.package.url[1:])
-	file_to_send = open(file_name, 'rb')
-	response = HttpResponse(file_to_send.read(), content_type='application/x-compressed')
-	file_to_send.close()
-
-	response['Content-Disposition'] = 'attachment; filename={}'.format(os.path.split(package.package.url)[-1])
-
-	return response
 
 @login_required
-def packages(request, ID):
-	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
-
+@get_problem
+def packages(request, problem):
 	packages = problem.package_set.order_by('-date').all()
 
 	context = {}
@@ -116,40 +107,32 @@ def packages(request, ID):
 	context['tab'] = 'packages'
 	return render(request, 'problems/problem/packages/packages.html', context)
 
-@login_required
-def info(request, ID):
-	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(requesst, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
 
+@login_required
+@get_problem
+def info(request, problem):
 	context = {}
 	context['problem'] = problem
 	context['tab'] = 'info'
 	return render(request, 'problems/problem/info.html', context)
 
+
 @login_required
-def comments_edit(request, ID, comID):
+@get_problem
+def comments_edit(request, problem, comment):
 	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
-	
-	try:
-		comment = Comment.objects.get(id = comID)
+		comment = Comment.objects.get(id = comment)
 	except Comment.DoesNotExist:
-		error_msg(request, "Comment with id = {} does not exist.".format(comID))
-		return redirect('problems-problem-comments', ID)
+		error_msg(request, "Comment with id = {} does not exist.".format(comment))
+		return redirect('problems-problem-comments', problem.id)
 	
 	if comment.problem != problem:
-		error_msg(request, "Comment {} does not belong to problem {}.".format(comID, ID))
+		error_msg(request, "Comment {} does not belong to problem {}.".format(comment.id, problem.id))
 		return redirect('problems-problems')
 	
 	if comment.user != request.user:
 		error_msg(request, "You don't have permissions to edit this comment.")
-		return redirect('problems-problem-comments', ID)
+		return redirect('problems-problem-comments', problem.id)
 	
 	context = {'problem' : problem, 'tab': 'comments'}
 
@@ -164,12 +147,12 @@ def comments_edit(request, ID, comID):
 			elif request.POST.get('edit', 'no-edit') != 'no-edit':
 				comment.save()
 				success_msg(request, "Your comment was edited successfully.")
-				return redirect('problems-problem-comments', ID)
+				return redirect('problems-problem-comments', problem.id)
 
 			else:
 				comment.delete()
 				success_msg(request, "Your comment was successfully deleted.")
-				return redirect('problems-problem-comments', ID)
+				return redirect('problems-problem-comments', problem.id)
 
 		except comment.Error as error:
 			error_msg(request, "There were some errors while editing your comments.")
@@ -179,14 +162,10 @@ def comments_edit(request, ID, comID):
 
 	return render(request, 'problems/problem/comments/comments_edit.html', context)
 
+
 @login_required
-def comments_add(request, ID):
-	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
-	
+@get_problem
+def comments_add(request, problem):
 	comment = Comment()
 	comment.user = request.user
 
@@ -204,7 +183,7 @@ def comments_add(request, ID):
 			else:
 				comment.save()
 				success_msg(request, "Your comment was added successfully.")
-				return redirect('problems-problem-comments', ID)
+				return redirect('problems-problem-comments', problem.id)
 
 		except comment.Error as error:
 			error_msg(request, "Could not create comment because of error.")
@@ -214,16 +193,12 @@ def comments_add(request, ID):
 
 	return render(request, 'problems/problem/comments/comments_add.html', context)
 
+
 @login_required
-def comments(request, ID, page=1):
+@get_problem
+def comments(request, problem, page=1):
 	page = int(page)
 	per_page = 10
-
-	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
 	
 	context = compute_pages(page, problem.comment_set.count(), per_page)
 
@@ -235,6 +210,7 @@ def comments(request, ID, page=1):
 	context['comments'] = comments
 
 	return render(request, 'problems/problem/comments/comments.html', context)
+
 
 @login_required
 def new(request):
@@ -284,16 +260,13 @@ def new(request):
 
 	return render(request, 'problems/new.html', context)
 
+
 @login_required
-def edit(request, ID):
-	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
-	
+@get_problem
+def edit(request, problem):
+
 	if request.user != problem.user:
-		error_msg(request, "You don't have permissions to edit the problem with id={}".format(ID))
+		error_msg(request, "You don't have permissions to edit the problem with id={}".format(problem.id))
 		return redirect('problems-problems')
 
 	context = {'problem' : problem, 'tab' : 'edit'}
@@ -336,20 +309,19 @@ def edit(request, ID):
 
 	return render(request, 'problems/problem/edit.html', context)
 
-@login_required
-def task(request, ID):
-	try:
-		problem = Problem.objects.get(id = ID)
-	except Problem.DoesNotExist:
-		error_msg(request, "Problem with id={} does not exist.".format(ID))
-		return redirect('problems-problems')
 
+@login_required
+@get_problem
+def task(request, problem):
 	context = {'problem' : problem, 'tab' : 'task'}
 	return render(request, 'problems/problem/task.html', context)
 
+
 @login_required
-def problem(request, ID):
-	return redirect('problems-problem-info', ID)
+@get_problem
+def problem(request, problem):
+	return redirect('problems-problem-info', problem.id)
+
 
 @login_required
 def problems(request):

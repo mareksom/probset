@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
+# Temporary files
+*.swp
+
 # Site files
 db.sqlite3
 media/*
