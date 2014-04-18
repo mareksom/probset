@@ -50,6 +50,10 @@ def get_package(original_function):
 @get_problem
 @get_package
 def remove_package(request, problem, package):
+	if package.user != request.user:
+		error_msg(request, "You don't have permissions to remove this package.")
+		return redirect('problems-problem-packages', problem.id)
+
 	package.delete()
 	success_msg(request, "Package was successfully deleted.")
 

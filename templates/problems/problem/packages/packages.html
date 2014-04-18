@@ -31,16 +31,18 @@
 					<a class="btn btn-success" href="{% url 'problems-problem-packages-download' problem.id package.id %}">
 						{% icon 'download-alt' %} Download
 					</a>
-					{% dialog '<i class="icon icon-remove"></i> Remove' "btn btn-danger" %}
-						Confirmation
-					{% body %}
-						Are you sure, you want to delete this package?
-					{% buttons %}
-						<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">No</button>
-						<a class="btn btn-danger" href="{% url 'problems-problem-packages-remove' problem.id package.id %}">
-							Remove
-						</a>
-					{% enddialog %}
+					{% if package.user == user %}
+						{% dialog '<i class="icon icon-remove"></i> Remove' "btn btn-danger" %}
+							Confirmation
+						{% body %}
+							Are you sure, you want to delete this package?
+						{% buttons %}
+							<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">No</button>
+							<a class="btn btn-danger" href="{% url 'problems-problem-packages-remove' problem.id package.id %}">
+								Remove
+							</a>
+						{% enddialog %}
+					{% endif %}
 				</td>
 			</tr>
 		{% endfor %}
