@@ -2,5 +2,6 @@
 __pycache__/
 *.py[cod]
 
-# Django files
+# Site files
 db.sqlite3
+media/*

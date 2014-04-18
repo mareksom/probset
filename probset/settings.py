@@ -43,6 +43,7 @@ INSTALLED_APPS = (
 	'tags',
 	'problems',
 	'comments',
+	'packages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -100,3 +101,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.contrib.auth.context_processors.auth',
 	'probset.context_processors.messages',
 )
+
+# Media files
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

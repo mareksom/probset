@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Q
 
+from packages.models import Package
 from problems.models import Problem
 from comments.models import Comment
 from tags.models import Tag
@@ -10,6 +11,110 @@ from tags.models import Tag
 from utils.messages import error_msg, success_msg
 from utils.pages import compute_pages
 from utils.sort import pl_filter
+
+from django.http import HttpResponse
+import os
+from django.conf import settings
+
+import string
+
+import re
+
+@login_required
+def remove_package(request, ID, packageID):
+	try:
+		problem = Problem.objects.get(id = ID)
+	except Problem.DoesNotExist:
+		error_msg(request, "Problem with id={} does not exist.".format(ID))
+		return redirect('problems-problems')
+
+	try:
+		package = Package.objects.get(id = packageID)
+	except Package.DoesNotExist:
+		error_msg(request, "Package with id={} does not exist.".format(packageID))
+		return redirect('problems-problem-packages', ID)
+	
+	if package.problem != problem:
+		error_msg(request, "Package with id={} does not belong to the problem with id={}.".format(packageID, ID))
+		return redirect('problems-problem-packages', ID)
+	
+	package.delete()
+	success_msg(request, "Package was successfully deleted.")
+
+	return redirect('problems-problem-packages', ID)
+
+@login_required
+def upload(request, ID):
+	try:
+		problem = Problem.objects.get(id = ID)
+	except Problem.DoesNotExist:
+		error_msg(request, "Problem with id={} does not exist.".format(ID))
+		return redirect('problems-problems')
+	
+	package = Package()
+	context = {}
+
+	if request.method == 'POST':
+		package.user = request.user
+		package.comment = request.POST.get('comment', '')
+		package.problem = problem
+
+		if re.search(r'^[a-zA-Z0-9_\.\-]+$', request.FILES['input_file'].name) is None:
+			error_msg(request, "The file name may contain only those characters: {}{}_.-".format(string.ascii_letters, string.digits))
+		else:
+			package.package.save(request.FILES['input_file'].name, request.FILES['input_file'])
+			package.save()
+			success_msg(request, "Package uploaded successfully.")
+			return redirect('problems-problem-packages', ID)
+
+	context['problem'] = problem
+	context['package'] = package
+	context['tab'] = 'packages'
+
+	return render(request, 'problems/problem/packages/upload.html', context)
+
+@login_required
+def download(request, ID, packageID):
+	try:
+		problem = Problem.objects.get(id = ID)
+	except Problem.DoesNotExist:
+		error_msg(request, "Problem with id={} does not exist.".format(ID))
+		return redirect('problems-problems')
+	
+	try:
+		package = Package.objects.get(id = packageID)
+	except Package.DoesNotExist:
+		error_msg(request, "Package with id={} does not exist.".format(packageID))
+		return redirect('problems-problem', ID)
+	
+	if package.problem != problem:
+		error_msg(request, "Package with id={} does not belong to the problem with id={}.".format(packageID, ID))
+		return redirect('problems-problem', ID)
+	
+	file_name = os.path.join(settings.BASE_DIR, package.package.url[1:])
+	file_to_send = open(file_name, 'rb')
+	response = HttpResponse(file_to_send.read(), content_type='application/x-compressed')
+	file_to_send.close()
+
+	response['Content-Disposition'] = 'attachment; filename={}'.format(os.path.split(package.package.url)[-1])
+
+	return response
+
+@login_required
+def packages(request, ID):
+	try:
+		problem = Problem.objects.get(id = ID)
+	except Problem.DoesNotExist:
+		error_msg(request, "Problem with id={} does not exist.".format(ID))
+		return redirect('problems-problems')
+
+	packages = problem.package_set.order_by('-date').all()
+
+	context = {}
+	context['problem'] = problem
+	context['packages'] = packages
+	context['tab'] = 'packages'
+	return render(request, 'problems/problem/packages/packages.html', context)
 
 @login_required
 def info(request, ID):
@@ -129,7 +234,7 @@ def comments(request, ID, page=1):
 
 	context['comments'] = comments
 
-	return render(request, 'problems/problem/comments.html', context)
+	return render(request, 'problems/problem/comments/comments.html', context)
 
 @login_required
 def new(request):

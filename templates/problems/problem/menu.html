@@ -36,20 +36,11 @@
 			{% icon 'th-large' %} Task
 		</a>
 	</li>
-{% comment %}
-
-	<li>
-		<a href="#">
-			{% icon 'eye-open' %} Solution
+	<li{% if tab == "packages" %} class="active"{% endif %}>
+		<a href="{% url 'problems-problem-packages' problem.id %}">
+			{% icon 'briefcase' %} Packages
 		</a>
 	</li>
-
-	<li>
-		<a href="#">
-			{% icon 'download-alt' %} Tests
-		</a>
-	</li>
-{% endcomment %}
 
 	<li{% if tab == "comments" %} class="active"{% endif %}>
 		<a href="{% url 'problems-problem-comments' problem.id %}">

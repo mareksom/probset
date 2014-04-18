@@ -1,5 +1,8 @@
 from django import template
 
+import random
+import string
+
 register = template.Library()
 
 @register.tag(name='dialog')
@@ -12,26 +15,25 @@ def do_dialog(parser, token):
 	parser.delete_first_token()
 
 	try:
-		dialog_id = token.split_contents()[1]
-	except IndexError:
-		dialog_id = 'TO_JEST_BARDZO_ZLE_ID_NALEZY_JE_ZMIENIC'
-	try:
-		button_text = token.split_contents()[2]
+		button_text = token.split_contents()[1]
+		if button_text[0] == "'" and button_text[-1] == "'":
+			button_text = button_text[1:-1]
+		elif button_text[0] == '"' and button_text[-1] == '"':
+			button_text = button_text[1:-1]
 	except IndexError:
 		button_text = 'Launch modal'
 	try:
-		button_class = token.split_contents()[3]
+		button_class = token.split_contents()[2]
 	except IndexError:
 		button_class = '"btn"'
 
-	return DialogNode(title, body, buttons, dialog_id, button_class, button_text)
+	return DialogNode(title, body, buttons, button_class, button_text)
 
 class DialogNode(template.Node):
-	def __init__(self, title, body, buttons, dialog_id, button_class, button_text):
+	def __init__(self, title, body, buttons, button_class, button_text):
 		self.title = title
 		self.body = body
 		self.buttons = buttons
-		self.dialog_id = dialog_id
 		self.button_class = button_class
 		self.button_text = button_text
 	def render(self, context):
@@ -52,4 +54,4 @@ class DialogNode(template.Node):
 		{buttons}
 	</div>
 </div>
-		""".format(title=title, body=body, buttons=buttons, dialog_id=self.dialog_id, button_class=self.button_class, button_text=self.button_text)
+		""".format(title=title, body=body, buttons=buttons, dialog_id='dialog_' + ''.join(random.choice(string.ascii_lowercase) for i in range(10)), button_class=self.button_class, button_text=self.button_text)
