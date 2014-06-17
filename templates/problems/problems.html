@@ -64,7 +64,7 @@ Problems
 	</tr>
 </thead>
 {% for problem in problems %}
-<tr>
+<tr{% if problem.is_attached %} class="error"{% elif problem.has_package %} class="success"{% endif %}>
 	<td>
 		<div style="float: left;">
 			<a href="{% url 'problems-problem' problem.id %}">{{ problem.title }}</a>

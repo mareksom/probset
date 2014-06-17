@@ -12,6 +12,8 @@ urlpatterns = patterns('',
 	url(r'^comments/(?P<page>[0-9]+)/$', 'problems.views.comments', name='problems-problem-comments'),
 	url(r'^comments/$', 'problems.views.comments', name='problems-problem-comments'),
 
+	url(r'^contests/$', 'problems.views.contests', name='problems-problem-contests'),
+
 	url(r'^task/$', 'problems.views.task', name='problems-problem-task'),
 	url(r'^edit/$', 'problems.views.edit', name='problems-problem-edit'),
 	url(r'^$', 'problems.views.problem', name='problems-problem'),

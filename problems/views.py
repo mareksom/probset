@@ -7,6 +7,7 @@ from packages.models import Package
 from problems.models import Problem
 from comments.models import Comment
 from tags.models import Tag
+from contests.models import Round
 
 from utils.messages import error_msg, success_msg
 from utils.pages import compute_pages
@@ -44,6 +45,18 @@ def get_package(original_function):
 			return redirect('problems-problem-packages', kwargs['problem'].id)
 		return original_function(request, **kwargs)
 	return new_function
+
+
+@login_required
+@get_problem
+def contests(request, problem):
+
+	context = {}
+
+	context['problem'] = problem
+	context['tab'] = 'contests'
+
+	return render(request, 'problems/problem/contests.html', context)
 
 
 @login_required

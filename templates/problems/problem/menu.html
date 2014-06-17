@@ -48,6 +48,12 @@
 		</a>
 	</li>
 
+	<li{% if tab == "contests" %} class="active"{% endif %}>
+		<a href="{% url 'problems-problem-contests' problem.id %}">
+			{% icon 'globe' %} Contests
+		</a>
+	</li>
+
 	{% if problem.user == user %}
 	<li{% if tab == "edit" %} class="active"{% endif %}>
 		<a href="{% url 'problems-problem-edit' problem.id %}">

@@ -18,6 +18,12 @@ class Problem(models.Model):
 	difficulty = models.IntegerField()
 	coolness = models.IntegerField()
 
+	def is_attached(self):
+		return self.round_set.count() > 0
+	
+	def has_package(self):
+		return self.package_set.count() > 0
+
 	class Error(Exception):
 		title = ''
 		author = ''

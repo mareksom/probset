@@ -1,0 +1,24 @@
+{% extends "problems/problem/menu.html" %}
+
+{% block tab %}
+<table class="table table-bordered table-striped">
+<thead>
+	<tr>
+		<th style="background-color: #3a87ad; color: white;">Contest</th>
+		<th style="background-color: #3a87ad; color: white;">Round</th>
+	</tr>
+</thead>
+{% for round in problem.round_set.all %}
+<tr>
+	<td><a href="{% url 'contests-contest' round.contest.id %}">{{ round.contest.name }}</a></td>
+	<td>{{ round.name }}</td>
+</tr>
+{% empty %}
+<tr>
+	<td colspan="2">
+		This problem is not attached to any contest.
+	</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
