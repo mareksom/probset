@@ -15,9 +15,11 @@
 				{% endif %}
 			</span>
 			{% if comment.user == user %}
-			<span class="label label-inverse">
-				<a href="{% url 'problems-problem-comments-edit' problem.id comment.id %}">{% icon 'edit' True %}</a>
-			</span>
+			{% if not comment.id == None %} {# if comment.id is None then there's nothing to edit #}
+				<span class="label label-inverse">
+					<a href="{% url 'problems-problem-comments-edit' problem.id comment.id %}">{% icon 'edit' True %}</a>
+				</span>
+			{% endif %}
 			{% endif %}
 		</div>
 		<div style="clear: both;"></div>
