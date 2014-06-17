@@ -1,0 +1,63 @@
+{% extends "menu.html" %}
+
+{% load bbcode %}
+{% load icon %}
+
+{% block head_title %}
+{{ contest.name }}
+{% endblock %}
+
+{% block content %}
+
+<div style="float: right;">
+	<a href="{% url 'contests-contest-edit' contest.id %}" class="btn btn-success">
+		Edit contest
+	</a>
+</div>
+
+<h1>{{ contest.name }}</h1>
+
+<table class="table table-bordered table-striped">
+	<tr>
+		<td colspan="2" style="background-color: #3a87ad; color: white; font-weight: bold;">
+			Description
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			{% bbcode %}
+				{{ contest.description | safe }}
+			{% endbbcode %}
+		</td>
+	</tr>
+	<tr>
+		<th> Name </th>
+		<td> {{ contest.name }} </td>
+	</tr>
+	<tr>
+		<th> Date </th>
+		<td>
+			{% if contest.begin_date == contest.end_date %}
+				{{ contest.begin_date }}
+			{% else %}
+				{{ contest.begin_date }} -- {{ contest.end_date }}
+			{% endif %}
+		</td>
+	</tr>
+</table>
+
+<div style="float: right; margin-bottom: 10px;">
+	<a href="{% url 'contests-contest-round-add' contest.id %}" class="btn btn-success">
+		Create a new round
+	</a>
+</div>
+
+<h2> Rounds </h2>
+
+{% for round in contest.round_set.all %}
+	{% include 'contests/contest/round/round.html' with round=round %}
+{% empty %}
+	There are no rounds in this contest :(
+{% endfor %}
+
+{% endblock %}

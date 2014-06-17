@@ -1,0 +1,41 @@
+{% extends "menu.html" %}
+
+{% load dialog %}
+
+{% block head_title %}
+	Edit round for {{ contest.name }}
+{% endblock %}
+
+{% block content %}
+<h1> Edit round for {{ contest.name }} </h1>
+
+<form method="post" class="form-horizontal">
+{% csrf_token %}
+
+<div class="control-group{% if error.name %} error{% endif %}">
+	<label class="control-label" for="input_name">Name</label>
+	<div class="controls">
+		<input type="text" name="name" id="input_name" placeholder="Name" class="span6" value="{{ round.name }}" />
+		{% if error.name %}
+			<span class="help-inline">{{ error.name }}</span>
+		{% endif %}
+	</div>
+</div>
+
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" name="add" class="btn btn-success">Edit the round</button>
+			{% dialog Remove "btn btn-danger" %}
+				Confirmation
+			{% body %}
+				Are you sure, you want to delete this round?
+			{% buttons %}
+				<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">No</button>
+				<button type="submit" name="remove" class="btn btn-danger">Remove</button>
+			{% enddialog %}
+		</div>
+	</div>
+
+</form>
+
+{% endblock %}

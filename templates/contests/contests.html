@@ -1,0 +1,46 @@
+{% extends "menu.html" %}
+
+{% block head_title %}
+Contests
+{% endblock %}
+
+{% block content %}
+
+<div style="float: right;">
+	<a href="{% url 'contests-add' %}" class="btn btn-success">
+		Create a contest
+	</a>
+</div>
+
+<h1>Contests</h1>
+
+{% if contests %}
+	<table class="table table-bordered table-striped">
+		<thead style="background-color: #3a87ad; color: white; font-weight: bold;">
+			<tr>
+				<th> Contest name </th>
+				<th> Date </th>
+			</tr>
+		</thead>
+	{% for contest in contests %}
+		<tr>
+			<td>
+				<a href="{% url 'contests-contest' contest.id %}">
+					{{ contest.name }}
+				</a>
+			</td>
+			<td>
+				{% if contest.begin_date == contest.end_date %}
+					{{ contest.begin_date }}
+				{% else %}
+					{{ contest.begin_date }} -- {{ contest.end_date }}
+				{% endif %}
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	There are no contests :(
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "menu.html" %}
+
+{% load tags %}
+{% load badges %}
+{% load icon %}
+
+{% block head_title %}
+	Attach problems to round
+{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'contests-contest' contest.id %}">&lt;&lt;&lt; Back to contest</a>
+
+<h1>Attach problems</h1>
+<h3>{{ round.name }}</h3>
+<form class="form-search" method="get">
+	<div class="input-append">
+		<input type="text" class="input-xxlarge search-query" name="search" value="{{ search_string }}" {% if search_string %} autofocus{% endif %}/>
+		<button type="submit" class="btn btn-primary">Search</button>
+	</div>
+</form>
+
+<table class="table table-striped">
+{% for problem in problems %}
+	<tr>
+		<td>
+			<div style="float: right;">
+				{% for tag in problem.tags.all %}
+					{% puttag tag %}
+				{% endfor %}
+			</div>
+			<a href="{% url 'problems-problem' problem.id %}">{{ problem.title }}</a>
+		</td>
+		<td><center>{% difficulty problem.difficulty %}</center></td>
+		<td><center>{% coolness problem.coolness %}</center></td>
+		<td>{{ problem.author }}</td>
+		<td>
+			{% if problem in round.problems.all %}
+				<span class="label label-important">
+					<a style="color: white; text-decoration: none;" href="{% url 'contests-contest-round-detach-problem' contest.id round.id problem.id %}?next={{ request.get_full_path }}">{% icon 'remove' True %} Detach</a>
+				</span>
+			{% else %}
+				<span class="label label-success">
+					<a style="color: white; text-decoration: none;" href="{% url 'contests-contest-round-attach-problem' contest.id round.id problem.id %}?next={{ request.get_full_path }}">{% icon 'edit' True %} Attach</a>
+				</span>
+			{% endif %}
+		</td>
+	</tr>
+{% empty %}
+	<tr>
+		<td>
+			There are no problems ;_;
+		</td>
+	</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

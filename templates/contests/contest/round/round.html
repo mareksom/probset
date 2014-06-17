@@ -1,0 +1,49 @@
+{% load icon %}
+{% load badges %}
+{% load tags %}
+
+{% with problems=round.problems.all %}
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<td colspan="5" style="background-color: #3a87ad; color: white; font-weight: bold;">
+					<div style="float: right;">
+						<span class="label label-inverse">
+							<a href="{% url 'contests-contest-round-edit' contest.id round.id %}" style="color: white; text-decoration: none;"> {% icon 'edit' True %} Edit </a>
+						</span>
+						<span class="label label-success">
+							<a href="{% url 'contests-contest-round-attach' contest.id round.id %}" style="color: white; text-decoration: none;">{% icon 'plus-sign' True %} Attach problems </a>
+						</span>
+					</div>
+					{{ round.name }}
+				</td>
+			</tr>
+		</thead>
+		{% for problem in problems %}
+			<tr>
+				<td>
+					<div style="float: right;">
+						{% for tag in problem.tags.all %}
+							{% puttag tag %}
+						{% endfor %}
+					</div>
+					<a href="{% url 'problems-problem' problem.id %}">{{ problem.title }}</a>
+				</td>
+				<td><center>{% difficulty problem.difficulty %}</center></td>
+				<td><center>{% coolness problem.coolness %}</center></td>
+				<td>{{ problem.author }}</td>
+				<td width="1">
+					<span class="label label-important">
+						<a href="{% url 'contests-contest-round-detach-problem' contest.id round.id problem.id %}" style="color: white; text-decoration: none;">{% icon 'remove' True %}</a>
+					</span>
+				</td>
+			</tr>
+		{% empty %}
+			<tr>
+				<td>
+					There are no problems in this round.
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endwith %}

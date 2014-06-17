@@ -1,0 +1,34 @@
+{% extends "menu.html" %}
+
+{% load dialog %}
+
+{% block head_title %}
+	Edit contest
+{% endblock %}
+
+{% block content %}
+
+<h1> Create contest </h1>
+
+<form method="post" class="form-horizontal">
+{% csrf_token %}
+
+{% include "contests/contest/form.html" with contest=contest error=error %}
+
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" name="edit" class="btn btn-success">Edit the contest</button>
+			{% dialog Remove "btn btn-danger" %}
+				Confirmation
+			{% body %}
+				Are you sure, you want to remove contest "{{ contest.name }}"?
+			{% buttons %}
+				<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">No</button>
+				<button type="submit" name="remove" class="btn btn-danger">Remove</button>
+			{% enddialog %}
+		</div>
+	</div>
+
+</form>
+
+{% endblock %}

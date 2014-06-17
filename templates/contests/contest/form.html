@@ -1,0 +1,39 @@
+<div class="control-group{% if error.name %} error{% endif %}">
+	<label class="control-label" for="input_name">Name</label>
+	<div class="controls">
+		<input type="text" name="name" id="input_name" placeholder="Name" class="span6" value="{{ contest.name }}" />
+		{% if error.name %}
+			<span class="help-inline">{{ error.name }}</span>
+		{% endif %}
+	</div>
+</div>
+
+<div class="control-group">
+	<label class="control-label" for="input_description">Description</label>
+	<div class="controls">
+		<textarea id="input_description" name="description" placeholder="Write a description of the contest." class="span6" style="height: 250px;"
+			>{{ contest.description }}</textarea>
+	</div>
+</div>
+
+<div class="control-group{% if error.begin_date %} error{% endif %}">
+	<label class="control-label" for="input_begin_date">Begin date</label>
+	<div class="controls">
+		<input type="text" name="begin_date" id="input_begin_date" class="datepicker" value="{{ contest.begin_date|date:"d-m-Y" }}"
+			placeholder="dd-mm-yyyy" />
+			{% if error.begin_date %}
+				<span class="help-inline">{{ error.begin_date }}</span>
+			{% endif %}
+	</div>
+</div>
+
+<div class="control-group{% if error.end_date %} error{% endif %}">
+	<label class="control-label" for="input_end_date">End date</label>
+	<div class="controls">
+		<input type="text" name="end_date" id="input_end_date" class="datepicker" value="{{ contest.end_date|date:"d-m-Y" }}"
+			placeholder="dd-mm-yyyy" />
+			{% if error.end_date %}
+				<span class="help-inline">{{ error.end_date }}</span>
+			{% endif %}
+	</div>
+</div>

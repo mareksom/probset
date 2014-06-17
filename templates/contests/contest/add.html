@@ -1,0 +1,24 @@
+{% extends "menu.html" %}
+
+{% block head_title %}
+	New contest
+{% endblock %}
+
+{% block content %}
+
+<h1> Create contest </h1>
+
+<form method="post" class="form-horizontal">
+{% csrf_token %}
+
+{% include "contests/contest/form.html" with contest=contest error=error %}
+
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" name="add" class="btn btn-success">Create the contest</button>
+		</div>
+	</div>
+
+</form>
+
+{% endblock %}
