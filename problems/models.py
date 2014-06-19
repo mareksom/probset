@@ -14,6 +14,7 @@ class Problem(models.Model):
 	edited_date = models.DateTimeField(auto_now=True)
 	description = models.TextField()
 	task = models.TextField()
+	solution = models.TextField()
 	tags = models.ManyToManyField(Tag)
 	difficulty = models.IntegerField()
 	coolness = models.IntegerField()

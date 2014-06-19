@@ -49,6 +49,17 @@ def get_package(original_function):
 
 @login_required
 @get_problem
+def solution(request, problem):
+	context = {}
+
+	context['problem'] = problem
+	context['tab'] = 'solution'
+	
+	return render(request, 'problems/problem/solution.html', context)
+
+
+@login_required
+@get_problem
 def contests(request, problem):
 
 	context = {}
@@ -240,6 +251,7 @@ def new(request):
 		problem.author = request.POST.get('author','')
 		problem.description = request.POST.get('description','')
 		problem.task = request.POST.get('task', '')
+		problem.solution = request.POST.get('solution', '')
 		problem.user = request.user
 		try: problem.difficulty = int(request.POST.get('difficulty', '0'))
 		except ValueError: problem.difficulty = 0
@@ -302,6 +314,7 @@ def edit(request, problem):
 		problem.author = request.POST.get('author','')
 		problem.description = request.POST.get('description','')
 		problem.task = request.POST.get('task', '')
+		problem.solution = request.POST.get('solution', '')
 
 		try: problem.difficulty = int(request.POST.get('difficulty','0'))
 		except ValueError: problem.difficulty = 0

@@ -36,6 +36,13 @@
 			{% icon 'th-large' %} Task
 		</a>
 	</li>
+
+	<li{% if tab == "solution" %} class="active"{% endif %}>
+		<a href="{% url 'problems-problem-solution' problem.id %}">
+			{% icon 'eye-close' %} Solution
+		</a>
+	</li>
+
 	<li{% if tab == "packages" %} class="active"{% endif %}>
 		<a href="{% url 'problems-problem-packages' problem.id %}">
 			{% icon 'briefcase' %} Packages
