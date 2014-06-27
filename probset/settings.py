@@ -26,6 +26,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+WSGI_APPLICATION = 'probset.wsgi.application'
+
 
 # Application definition
 
