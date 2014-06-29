@@ -45,6 +45,7 @@ INSTALLED_APPS = (
 	'comments',
 	'packages',
 	'contests',
+	'forum',
 )
 
 MIDDLEWARE_CLASSES = (

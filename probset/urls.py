@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 		url(r'^tags/', include('tags.urls'), name='tags'),
 		url(r'^problems/', include('problems.urls'), name='problems'),
 		url(r'^contests/', include('contests.urls'), name='contests'),
+		url(r'^forum/', include('forum.urls'), name='forum'),
 
     url(r'^admin/', include(admin.site.urls)),
 )

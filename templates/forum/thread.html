@@ -1,0 +1,23 @@
+{% extends "menu.html" %}
+
+{% block head_title %}
+	{{ thread.title }}
+{% endblock %}
+
+{% block content %}
+
+<h2>{{ thread.title }}</h2>
+
+{% for event in posts %}
+	{% if event == 1 %}
+		<div class="forum-indent">
+	{% elif event == -1 %}
+		</div>
+	{% else %}
+		{% include "forum/post.html" with post=event %}
+	{% endif %}
+{% empty %}
+	There are no posts :(
+{% endfor %}
+
+{% endblock %}

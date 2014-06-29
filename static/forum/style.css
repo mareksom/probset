@@ -1,0 +1,44 @@
+.forum-indent
+{
+	padding-left: 50px;
+	border-left: 3px #f0f0f0 dotted;
+}
+
+.forum-post
+{
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	border-radius: 10px;
+	margin-bottom: 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.forum-post:hover
+{
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		right bottom,
+		color-stop(0.2, #FFFFFF),
+		color-stop(1, #EEEEEE)
+	);
+	background-image: -o-linear-gradient(right bottom, #FFFFFF 20%, #EEEEEE 100%);
+	background-image: -moz-linear-gradient(right bottom, #FFFFFF 20%, #EEEEEE 100%);
+	background-image: -webkit-linear-gradient(right bottom, #FFFFFF 20%, #EEEEEE 100%);
+	background-image: -ms-linear-gradient(right bottom, #FFFFFF 20%, #EEEEEE 100%);
+	background-image: linear-gradient(to right bottom, #FFFFFF 20%, #EEEEEE 100%);
+}
+
+.forum-post > .forum-tools
+{
+	float: right;
+}
+
+.forum-post > .forum-signature
+{
+	clear: both;
+	text-align: right;
+	font-size: 12px;
+	color: gray;
+}

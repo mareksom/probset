@@ -1,0 +1,27 @@
+{% extends "menu.html" %}
+
+{% block head_title %}
+	Forum
+{% endblock %}
+
+{% block content %}
+<div style="float: right;">
+	<a href="{% url 'forum-thread-new' %}" class="btn btn-success">New thread</a>
+</div>
+<table class="table table-striped">
+<thead>
+	<tr>
+		<th>Thread</th>
+	</tr>
+</thead>
+	{% for thread in threads %}
+		<tr>
+			<td><a href="{% url 'forum-thread' thread.id %}">{{ thread.title }}</a></td>
+		</tr>
+	{% empty %}
+		<tr>
+			<td>The forum is empty ;_;</td>
+		</tr>
+	{% endfor %}
+</table>
+{% endblock %}
