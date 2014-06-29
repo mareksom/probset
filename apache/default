@@ -1,0 +1,16 @@
+# This is an example of Apache configuration file
+WSGIPythonHome /home/user/www/venv
+WSGIPythonPath /home/user/www/probset:/home/user/www/venv/lib/python3.2/site-packages
+<VirtualHost *:80>
+	ServerAdmin user@user.com
+	WSGIScriptAlias / /home/user/www/probset/apache/wsgi.py
+
+	Alias /static/ /home/user/www/probset/static/
+	
+	<Directory /home/user/www/probset>
+		Order deny,allow
+		Allow from all
+	</Directory>
+	
+	ErrorLog /home/user/www/probset/apache/error.log
+</VirtualHost>

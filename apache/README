@@ -1,0 +1,2 @@
+To configure Apache2 with this project, you need mod_wsgi for python3 (package libapache2-mod-wsgi-py3 on Ubuntu).
+In this directory there is a sample Apache configuration file, nothing more is needed to setup everything correctly.
