@@ -8,6 +8,8 @@ from utils.messages import error_msg, success_msg
 from contests.models import Contest, Round
 from problems.models import Problem
 
+from kasia.kasia import am_kasia, kasia_in_contest, not_kasia, kasia_contest, kasia_own_problem
+
 # decorator which handles non-existsing contests
 def get_contest(original_function):
 	def new_function(request, **kwargs):
@@ -38,8 +40,10 @@ from problems.views import get_problem
 
 @login_required
 @get_contest
+@kasia_contest
 @get_round
 @get_problem
+@kasia_own_problem
 def detach_problem(request, contest, round, problem):
 	round.problems.remove(problem)
 	success_msg(request, "The problem was detached successfully.")
@@ -55,8 +59,10 @@ def detach_problem(request, contest, round, problem):
 
 @login_required
 @get_contest
+@kasia_contest
 @get_round
 @get_problem
+@kasia_own_problem
 def attach_problem(request, contest, round, problem):
 	round.problems.add(problem)
 	success_msg(request, "The problem was attached successfully.")
@@ -73,6 +79,7 @@ def attach_problem(request, contest, round, problem):
 
 @login_required
 @get_contest
+@kasia_contest
 @get_round
 def attach(request, contest, round):
 	context = {}
@@ -82,7 +89,10 @@ def attach(request, contest, round):
 	if request.method == 'GET':
 		search_string = request.GET.get('search', '')
 	
-	context['problems'] = Problem.objects.filter(title__icontains=search_string).order_by('title').all()
+	if am_kasia(request):
+		context['problems'] = Problem.objects.filter(user=request.user).filter(title__icontains=search_string).order_by('title').all()
+	else:
+		context['problems'] = Problem.objects.filter(title__icontains=search_string).order_by('title').all()
 	context['search_string'] = search_string
 
 	context['contest'] = contest
@@ -92,6 +102,7 @@ def attach(request, contest, round):
 
 @login_required
 @get_contest
+@kasia_contest
 @get_round
 def round_edit(request, contest, round):
 	context = {}
@@ -120,6 +131,7 @@ def round_edit(request, contest, round):
 
 @login_required
 @get_contest
+@kasia_contest
 def round_add(request, contest):
 	context = {}
 	round = Round()
@@ -141,6 +153,7 @@ def round_add(request, contest):
 
 @login_required
 @get_contest
+@kasia_contest
 def edit(request, contest):
 	context = {}
 	if request.method == 'POST':
@@ -168,6 +181,7 @@ def edit(request, contest):
 
 
 @login_required
+@not_kasia
 def add(request):
 	contest = Contest()
 	context = {}
@@ -193,6 +207,7 @@ def add(request):
 
 @login_required
 @get_contest
+@kasia_contest
 def contest(request, contest):
 	context = {}
 	context['contest'] = contest
@@ -203,6 +218,12 @@ def contest(request, contest):
 @login_required
 def contests(request):
 	contests = Contest.objects.order_by('-begin_date', '-end_date').all()
+	if am_kasia(request):
+		copy = tuple(contests)
+		contests = []
+		for contest in copy:
+			if kasia_in_contest(contest):
+				contests.append(contest)
 	context = {}
 	context['contests'] = contests
 	return render(request, 'contests/contests.html', context)

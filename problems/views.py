@@ -17,6 +17,8 @@ from django.http import HttpResponse
 import os
 from django.conf import settings
 
+from kasia.kasia import am_kasia, kasia_problem
+
 import string
 
 import re
@@ -49,6 +51,7 @@ def get_package(original_function):
 
 @login_required
 @get_problem
+@kasia_problem
 def solution(request, problem):
 	context = {}
 
@@ -60,6 +63,7 @@ def solution(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def contests(request, problem):
 
 	context = {}
@@ -72,6 +76,7 @@ def contests(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 @get_package
 def remove_package(request, problem, package):
 	if package.user != request.user:
@@ -86,6 +91,7 @@ def remove_package(request, problem, package):
 
 @login_required
 @get_problem
+@kasia_problem
 @get_package
 def download(request, problem, package):
 	file_name = os.path.join(settings.BASE_DIR, package.package.url[1:])
@@ -100,6 +106,7 @@ def download(request, problem, package):
 
 @login_required
 @get_problem
+@kasia_problem
 def upload(request, problem):
 	package = Package()
 	context = {}
@@ -126,6 +133,7 @@ def upload(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def packages(request, problem):
 	packages = problem.package_set.order_by('-date').all()
 
@@ -138,6 +146,7 @@ def packages(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def info(request, problem):
 	context = {}
 	context['problem'] = problem
@@ -147,6 +156,7 @@ def info(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def comments_edit(request, problem, comment):
 	try:
 		comment = Comment.objects.get(id = comment)
@@ -193,6 +203,7 @@ def comments_edit(request, problem, comment):
 
 @login_required
 @get_problem
+@kasia_problem
 def comments_add(request, problem):
 	comment = Comment()
 	comment.user = request.user
@@ -224,6 +235,7 @@ def comments_add(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def comments(request, problem, page=1):
 	page = int(page)
 	per_page = 10
@@ -292,6 +304,7 @@ def new(request):
 
 @login_required
 @get_problem
+@kasia_problem
 def edit(request, problem):
 
 	if request.user != problem.user:
@@ -342,6 +355,7 @@ def edit(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def task(request, problem):
 	context = {'problem' : problem, 'tab' : 'task'}
 	return render(request, 'problems/problem/task.html', context)
@@ -349,13 +363,17 @@ def task(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def problem(request, problem):
 	return redirect('problems-problem-info', problem.id)
 
 
 @login_required
 def problems(request):
-	problems = Problem.objects.order_by('-created_date')
+	if am_kasia(request):
+		problems = Problem.objects.filter(user=request.user).order_by('-created_date')
+	else:
+		problems = Problem.objects.order_by('-created_date')
 	context = {}
 	if request.method == 'GET':
 		context['search'] = {}
