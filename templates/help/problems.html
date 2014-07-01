@@ -1,0 +1,106 @@
+{% extends "help/menu.html" %}
+
+{% block head_title %}
+	Problems -- Help
+{% endblock %}
+
+{% block tab %}
+<h3>Problems</h3>
+<p>
+	Tutaj napiszę, co powinny niektóre pola zawierać (a przynajmniej to co było moją intencją).
+</p>
+
+<hr/>
+
+<h4>Author</h4>
+<p>
+	Często osoba wrzucająca zadanie wcale go nie wymyśliła.
+	Warto w tym polu wpisać skąd (od kogo) zadanie pochodzi.
+</p>
+
+<hr/>
+
+<h4>Description</h4>
+<p>
+	Krótkie zdanie z komentarzem, które dużo nie wnosi, ale pomaga na pierwszy rzut oka identyfikować zadanie
+		lub określić jego stopień przydatności/możliwości użycia.
+	Często można zostawić puste, ale warto tam wpisać cokolwiek.
+	<br/><br/>
+	Przykłady użycia (autentyczne):
+	<ul>
+		<li>"Całkiem fajne zadanie o permutacjach."</li>
+		<li>"Nie umiem zrobić, ale umieszczam, może ktoś to rozwiąże w tym lub innym wariancie ;)"</li>
+		<li>"Można wrzucić nawet i przed wykładem o sortowaniu topologicznym - jako wprowadzenie. Bo się wiąże, ale nie wymaga tej wiedzy."</li>
+		<li>"Sortowanie i przerzucanie czegoś na setach."</li>
+		<li>"Zadanie kiepskie: nie znasz rozwiązania - nie wymyślisz, znasz rozwiązanie - pomylisz się pisząc."</li>
+	</ul>
+</p>
+
+<hr/>
+
+<h4>Task</h4>
+<p>
+	Jak najkrótszy, ale <b>dokładny</b> opis co trzeba zrobić w zadaniu.
+	Raczej bez historyjki -- chociaż czasami podając historyjkę jest o wiele prościej wytłumaczyć zadanie.
+	Powinno się podać ograniczenia, albo oczekiwaną złożoność.
+	<br/><br/>
+	Przykłady użycia (autentyczne):
+	<ul>
+		<li>
+			"Znaleźć dodatnią wielokrotność liczby \(n\) o najmniejszej sumie cyfr (\(1 \le n \le 10^5\)).
+			W przypadku istnienia wielu takich wielokrotności podaj najmniejszą z nich."
+		</li>
+		<li>
+			"Jest sobie prosta ścieżka, wzdłuż której jest \(10^6\) polanek (w równych odległościach).
+			Na polankach są jagody (\(\le 10^6\) jagód na każdej).
+			Mama kazała Jasiowi zebrać \(z\) jagód (\(z \le 10^6\)).
+			Zgodnie z rytuałem jagodobrania należy wcześniej wybrać polankę, od której jagodobranie się zacznie,
+				i na której się skończy.
+			Jaś chciałby określić dla każdej polanki ile będzie się musiał najmniej nachodzić, aby zebrać wymaganą
+				liczbę jagód zaczynając (i kończąc na danej polance)."
+		</li>
+		<li>
+			"Dany jest (multi)zbiór słów nad alfabetem \(\{a, b\}\).
+			Jaka jest najmniejsza liczba znaków, jakie trzeba dopisać na koniec każdego z nich,
+				żeby każde dwa słowa były różne.
+			Suma długości słów jest nie większa niż \(10^6\)"
+		</li>
+		<li>
+			"Plansza \(n \times m\) jest wypełniona liczbami całkowitymi.
+			Należy przejść z lewego górnego rogu do prawego dolnego poruszając się w dół lub w prawo,
+				tak, żeby iloczyn liczb na ścieżce miał jak najmniej zer na końcu zapisu dziesiętnego.
+			Oczekiwana złożoność: \(O(nm)\)."
+		</li>
+	</ul>
+</p>
+
+<hr/>
+
+<h4>Solution</h4>
+<p>
+	Należy tutaj umieścić sposób rozwiązania zadania (opis).
+	W tym polu jest używany BBCode, więc można również w tagach [code][/code] umieścić kod rozwiązania wzorcowego.
+</p>
+
+<hr/>
+
+<h4>Packages</h4>
+<p>
+	Miejsce do wrzucania paczek do tego zadania.
+	Warto na koniec kontestu wrzucić tutaj ostateczną wersję paczki (po licznych poprawkach :P).
+	Paczki mogą umieszczać dowolne osoby, nie tylko osoba, która wrzuciła zadanie.
+</p>
+
+<hr/>
+
+<h4>Kolorki na liście zadań</h4>
+<p>
+	Kolory są następujące:
+	<ul>
+		<li>Biały -- zadania, które nie są przypisane do żadnego kontestu.</li>
+		<li>Zielony -- zadania, które są przypisane do jakiegoś kontestu i mają gotową paczkę.</li>
+		<li>Czerwony -- zadania, które są przypisane do jakiegoś kontestu i nie mają gotowej paczki.</li>
+	</ul>
+</p>
+
+{% endblock %}

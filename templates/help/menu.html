@@ -11,11 +11,15 @@
 <ul class="nav nav-pills">
 
 	<li{% if tab == "bbcode" %} class="active"{% endif %}>
-		<a href="/help/bbcode/">{% icon 'barcode' %} BBCode</a>
+		<a href="{% url 'help-bbcode' %}">{% icon 'barcode' %} BBCode</a>
 	</li>
 
 	<li{% if tab == "difficulty" %} class="active"{% endif %}>
-		<a href="/help/difficulty/">{% icon 'asterisk' %} Difficulty</a>
+		<a href="{% url 'help-difficulty' %}">{% icon 'asterisk' %} Difficulty</a>
+	</li>
+
+	<li{% if tab == "problems" %} class="active"{% endif %}>
+		<a href="{% url 'help-problems' %}">{% icon 'th' %} Problems</a>
 	</li>
 
 </ul>
