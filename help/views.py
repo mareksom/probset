@@ -4,6 +4,10 @@ from django.contrib.auth.decorators import login_required
 from utils.messages import error_msg, success_msg
 
 @login_required
+def problems(request):
+	return render(request, 'help/problems.html', {'tab' : 'problems'})
+
+@login_required
 def difficulty(request):
 	return render(request, 'help/difficulty.html', {'tab': 'difficulty'})
 
