@@ -2,6 +2,7 @@
 {% load bbcode %}
 
 <div class="forum-post">
+	<a class="anchor" id="forum-post-{{ post.id }}"></a>
 	{% if not noreply %}
 		<div class="forum-tools">
 			{% if post.user == user %}

@@ -31,9 +31,21 @@ class Post(models.Model):
 		if err.is_error():
 			raise err
 	
+	def update_last_post(self):
+		thread = self.get_thread()
+		if thread is not None:
+			thread.set_last_post(self)
+	
 	def save(self):
+		if self.id is None:
+			new_post = True
+		else:
+			new_post = False
+
 		self.check()
 		super(Post, self).save()
+		if new_post:
+			self.update_last_post()
 	
 	def __str__(self):
 		return "{} wrote {:.10}".format(self.user, self.content)
@@ -42,6 +54,8 @@ class Post(models.Model):
 class Thread(models.Model):
 	created_date = models.DateTimeField(auto_now_add=True)
 	title = models.CharField(max_length=200)
+
+	last_post = models.ForeignKey('Post', null=True, blank=True, related_name='last_post')
 
 	class Error(Exception):
 		title = ''
@@ -57,9 +71,22 @@ class Thread(models.Model):
 		if err.is_error():
 			raise err
 	
+	def set_last_post(self, new_last_post):
+		self.last_post = new_last_post
+		self.save()
+	
 	def save(self):
 		self.check()
 		super(Thread, self).save()
+	
+	def author(self):
+		try:
+			author_post = self.post_set.get()
+		except self.MultipleObjectsReturned:
+			return None
+		except self.DoesNotExist:
+			return None
+		return author_post.user
 	
 	def __str__(self):
 		return "Thread: {}".format(self.title)

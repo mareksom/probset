@@ -12,15 +12,26 @@
 <thead>
 	<tr>
 		<th>Thread</th>
+		<th>Author</th>
+		<th>Last post</th>
 	</tr>
 </thead>
 	{% for thread in threads %}
 		<tr>
 			<td><a href="{% url 'forum-thread' thread.id %}">{{ thread.title }}</a></td>
+			<td><a href="{% url 'accounts-user' thread.author.id %}">{{ thread.author.get_full_name }}</a></td>
+			<td width="400px">
+				<a href="{% url 'forum-thread' thread.id %}#forum-post-{{ thread.last_post.id }}" style="color: black; text-decoration: none;">
+				{{ thread.last_post.content|truncatechars:100 }}
+				<div style="position: relative; top: 0px; bottom: 0px; text-align: right; font-size: 11px; padding: 0px; margin: 0px;">
+					~<b>{{ thread.last_post.user.get_full_name }}</b>, {{ thread.last_post.edited_date }}
+				</div>
+				</a>
+			</td>
 		</tr>
 	{% empty %}
 		<tr>
-			<td>The forum is empty ;_;</td>
+			<td colspan="3">The forum is empty ;_;</td>
 		</tr>
 	{% endfor %}
 </table>

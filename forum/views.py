@@ -64,6 +64,7 @@ def new_thread(request):
 				thread.save()
 				post.thread = thread
 				post.save()
+				post.update_last_post()
 				success_msg(request, "Thread created successfully.")
 				return redirect('forum-thread', thread.id)
 
