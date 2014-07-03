@@ -1,0 +1,17 @@
+<div style="float: right;">
+	<a href="{% url 'threads-post-new' thread.id %}?next={{ request.path }}" class="btn btn-success">New post</a>
+</div>
+
+<h2>{{ title }}</h2>
+
+{% for event in thread.events %}
+	{% if event == 1 %}
+		<div class="thread-post-indent">
+	{% elif event == -1 %}
+		</div>
+	{% else %}
+		{% include "threads/post.html" with post=event %}
+	{% endif %}
+{% empty %}
+	There are no posts :(
+{% endfor %}

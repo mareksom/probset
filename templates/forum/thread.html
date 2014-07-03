@@ -6,18 +6,6 @@
 
 {% block content %}
 
-<h2>{{ thread.title }}</h2>
-
-{% for event in posts %}
-	{% if event == 1 %}
-		<div class="forum-indent">
-	{% elif event == -1 %}
-		</div>
-	{% else %}
-		{% include "forum/post.html" with post=event %}
-	{% endif %}
-{% empty %}
-	There are no posts :(
-{% endfor %}
+{% include "threads/thread.html" with title=thread.title thread=thread.thread %}
 
 {% endblock %}

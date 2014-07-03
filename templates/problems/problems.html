@@ -2,6 +2,7 @@
 
 {% load badges %}
 {% load tags %}
+{% load icon %}
 
 {% block head_title %}
 Problems
@@ -63,11 +64,14 @@ Problems
 		</form>
 	</tr>
 </thead>
-{% for problem in problems %}
+{% for problem, seen in problems %}
 <tr{% if problem.is_attached %}{% if problem.has_package %} class="success"{% else %} class="error"{% endif %}{% endif %}>
 	<td>
 		<div style="float: left;">
 			<a href="{% url 'problems-problem' problem.id %}">{{ problem.title }}</a>
+			{% if not seen %}
+				<a href="{% url 'problems-problem-comments' problem.id %}{% if problem.comments.last_post.id %}#post-{{ problem.comments.last_post.id }}{% endif %}">{% icon 'comment' %}</a>
+			{% endif %}
 		</div>
 		<div style="float: right;">
 			{% for tag in problem.tags.all %}

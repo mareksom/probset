@@ -44,9 +44,9 @@ INSTALLED_APPS = (
 	'help',
 	'tags',
 	'problems',
-	'comments',
 	'packages',
 	'contests',
+	'threads',
 	'forum',
 )
 
@@ -105,6 +105,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.contrib.auth.context_processors.auth',
 	'django.core.context_processors.request',
 	'probset.context_processors.messages',
+	'probset.context_processors.forum_posts',
+	'probset.context_processors.comments_posts',
 )
 
 # Media files

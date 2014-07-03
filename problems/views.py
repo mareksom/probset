@@ -5,7 +5,6 @@ from django.db.models import Q
 
 from packages.models import Package
 from problems.models import Problem
-from comments.models import Comment
 from tags.models import Tag
 from contests.models import Round
 
@@ -147,97 +146,13 @@ def info(request, problem):
 
 @login_required
 @get_problem
-def comments_edit(request, problem, comment):
-	try:
-		comment = Comment.objects.get(id = comment)
-	except Comment.DoesNotExist:
-		error_msg(request, "Comment with id = {} does not exist.".format(comment))
-		return redirect('problems-problem-comments', problem.id)
-	
-	if comment.problem != problem:
-		error_msg(request, "Comment {} does not belong to problem {}.".format(comment.id, problem.id))
-		return redirect('problems-problems')
-	
-	if comment.user != request.user:
-		error_msg(request, "You don't have permissions to edit this comment.")
-		return redirect('problems-problem-comments', problem.id)
-	
-	context = {'problem' : problem, 'tab': 'comments'}
-
-	if request.method == "POST":
-		comment.comment = request.POST.get('comment', '')
-		comment.date = timezone.now()
-		try:
-			if request.POST.get('preview', 'no-preview') != 'no-preview':
-				context['preview'] = True
-				comment.check()
-
-			elif request.POST.get('edit', 'no-edit') != 'no-edit':
-				comment.save()
-				success_msg(request, "Your comment was edited successfully.")
-				return redirect('problems-problem-comments', problem.id)
-
-			else:
-				comment.delete()
-				success_msg(request, "Your comment was successfully deleted.")
-				return redirect('problems-problem-comments', problem.id)
-
-		except comment.Error as error:
-			error_msg(request, "There were some errors while editing your comments.")
-			context['error'] = error
-	
-	context['comment'] = comment
-
-	return render(request, 'problems/problem/comments/comments_edit.html', context)
-
-
-@login_required
-@get_problem
-def comments_add(request, problem):
-	comment = Comment()
-	comment.user = request.user
-
-	context = {'problem' : problem, 'tab': 'comments'}
-
-	if request.method == "POST":
-		comment.comment = request.POST.get('comment', '')
-		comment.problem = problem
-		comment.date = timezone.now()
-		try:
-			if request.POST.get('preview', 'no-preview') != 'no-preview':
-				context['preview'] = True
-				comment.check()
-
-			else:
-				comment.save()
-				success_msg(request, "Your comment was added successfully.")
-				return redirect('problems-problem-comments', problem.id)
-
-		except comment.Error as error:
-			error_msg(request, "Could not create comment because of error.")
-			context['error'] = error
-	
-	context['comment'] = comment
-
-	return render(request, 'problems/problem/comments/comments_add.html', context)
-
-
-@login_required
-@get_problem
-def comments(request, problem, page=1):
-	page = int(page)
-	per_page = 10
-	
-	context = compute_pages(page, problem.comment_set.count(), per_page)
-
+def comments(request, problem):
+	context = {}
+	context['thread'] = problem.comments
 	context['problem'] = problem
 	context['tab'] = 'comments'
-
-	comments = problem.comment_set.order_by('-created_date')[(page-1)*per_page:page*per_page].all()
-
-	context['comments'] = comments
-
-	return render(request, 'problems/problem/comments/comments.html', context)
+	problem.comments.set_seen_by(request.user)
+	return render(request, 'problems/problem/comments.html', context)
 
 
 @login_required
@@ -398,5 +313,5 @@ def problems(request):
 	context['tags'] = list(Tag.objects.all())
 	context['tags'].sort(key = lambda x : pl_filter(x.name.lower()))
 
-	context['problems'] = problems.all()
+	context['problems'] = list(((problem, problem.comments.was_seen_by(request.user)) for problem in problems.all()))
 	return render(request, 'problems/problems.html', context)

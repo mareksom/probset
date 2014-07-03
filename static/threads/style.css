@@ -1,10 +1,10 @@
-.forum-indent
+.thread-post-indent
 {
 	padding-left: 50px;
 	border-left: 3px #f0f0f0 dotted;
 }
 
-.forum-post
+.thread-post
 {
 	border-bottom: 1px solid black;
 	border-right: 1px solid black;
@@ -14,7 +14,7 @@
 	padding-right: 10px;
 }
 
-.forum-post:hover
+.thread-post:hover
 {
 	background-image: -webkit-gradient(
 		linear,
@@ -30,12 +30,12 @@
 	background-image: linear-gradient(to right bottom, #FFFFFF 20%, #EEEEEE 100%);
 }
 
-.forum-post > .forum-tools
+.thread-post > .thread-tools
 {
 	float: right;
 }
 
-.forum-post > .forum-signature
+.thread-post > .thread-signature
 {
 	clear: both;
 	text-align: right;
