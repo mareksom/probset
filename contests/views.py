@@ -1,3 +1,5 @@
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -17,7 +19,7 @@ def get_contest(original_function):
 			kwargs['contest'] = Contest.objects.get(id = kwargs['contest'])
 		except Contest.DoesNotExist:
 			error_msg(request, "Contest with id={} does not exist.".format(kwargs['contest']))
-			return redirect('contests-contests')
+			raise Http404
 		return original_function(request, **kwargs)
 	return new_function
 
@@ -28,10 +30,10 @@ def get_round(original_function):
 			kwargs['round'] = Round.objects.get(id = kwargs['round'])
 		except Round.DoesNotExist:
 			error_msg(request, "Round with id={} does not exist.".format(kwargs['round']))
-			return redirect('contests-contest', kwargs['contest'].id)
+			raise Http404
 		if kwargs['round'].contest != kwargs['contest']:
 			error_msg(request, "Round with id={} does not belong to this contest.".format(kwargs['round'].id))
-			return redirect('contests-contest', kwargs['contest'].id)
+			raise Http404
 		return original_function(request, **kwargs)
 	return new_function
 
