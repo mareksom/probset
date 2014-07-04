@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 
 from django.contrib.auth.decorators import login_required
@@ -54,7 +54,7 @@ def user(request,ID):
 		user = User.objects.get(id=ID)
 	except User.DoesNotExist:
 		error_msg(request, "User with id={} does not exist.".format(ID))
-		return redirect('accounts-users')
+		raise Http404
 	context = {'user': user}
 	return render(request, 'accounts/user.html', context)
 

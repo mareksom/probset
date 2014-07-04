@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 from forum.models import ForumThread
 from django.utils import timezone
@@ -15,7 +16,7 @@ def get_forumthread(original_function):
 			kwargs['thread'] = ForumThread.objects.get(id = kwargs['thread'])
 		except ForumThread.DoesNotExist:
 			error_msg(request, "Thread with id={} does not exist.".format(kwargs['thread']))
-			return redirect('forum-threads')
+			raise Http404
 		return original_function(request, **kwargs)
 	return new_function
 

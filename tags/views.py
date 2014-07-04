@@ -1,5 +1,7 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 from utils.messages import error_msg, success_msg
 
@@ -13,7 +15,7 @@ def edit(request, ID):
 		tag = Tag.objects.get(id = ID)
 	except tag.DoesNotExist:
 		error_msg(request, "Tag with id = {} does not exist.".format(ID))
-		return redirect('tags-tags')
+		raise Http404
 	
 	context = {}
 	

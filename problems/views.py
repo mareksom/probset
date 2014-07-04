@@ -1,7 +1,9 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Q
+from django.core.exceptions import PermissionDenied
 
 from packages.models import Package
 from problems.models import Problem
@@ -27,7 +29,7 @@ def get_problem(original_function):
 			kwargs['problem'] = Problem.objects.get(id = kwargs['problem'])
 		except Problem.DoesNotExist:
 			error_msg(request, "Problem with id={} does not exist.".format(kwargs['problem']))
-			return redirect('problems-problems')
+			raise Http404
 		return original_function(request, **kwargs)
 	return new_function
 
@@ -38,10 +40,10 @@ def get_package(original_function):
 			kwargs['package'] = Package.objects.get(id = kwargs['package'])
 		except Package.DoesNotExist:
 			error_msg(request, "Package with id={} does not exist.".format(kwargs['package']))
-			return redirect('problems-problem-packages', kwargs['problem'].id)
+			raise Http404
 		if kwargs['package'].problem != kwargs['problem']:
 			error_msg(request, "Package with id={} does not belong to this problem.".format(kwargs['package']))
-			return redirect('problems-problem-packages', kwargs['problem'].id)
+			raise Http404
 		return original_function(request, **kwargs)
 	return new_function
 
@@ -75,7 +77,7 @@ def contests(request, problem):
 def remove_package(request, problem, package):
 	if package.user != request.user:
 		error_msg(request, "You don't have permissions to remove this package.")
-		return redirect('problems-problem-packages', problem.id)
+		raise PermissionDenied
 
 	package.delete()
 	success_msg(request, "Package was successfully deleted.")
@@ -211,7 +213,7 @@ def edit(request, problem):
 
 	if request.user != problem.user:
 		error_msg(request, "You don't have permissions to edit the problem with id={}".format(problem.id))
-		return redirect('problems-problems')
+		raise PermissionDenied
 
 	context = {'problem' : problem, 'tab' : 'edit'}
 

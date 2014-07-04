@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 from threads.models import Post, Thread
 from django.utils import timezone
@@ -14,7 +15,7 @@ def get_post(original_function):
 			kwargs['post'] = Post.objects.get(id = kwargs['post'])
 		except Post.DoesNotExist:
 			error_msg(request, "Post with id={} does not exist.".format(kwargs['post']))
-			return redirect('forum-threads')
+			raise Http404
 		return original_function(request, **kwargs)
 	return new_function
 
@@ -25,7 +26,7 @@ def get_thread(original_function):
 			kwargs['thread'] = Thread.objects.get(id = kwargs['thread'])
 		except Thread.DoesNotExist:
 			error_msg(request, "Thread with id={} does not exist.".format(kwargs['thread']))
-			return redirect('')
+			return Http404
 		return original_function(request, **kwargs)
 	return new_function
 
@@ -34,7 +35,7 @@ def auth_post(original_function):
 	def new_function(request, **kwargs):
 		if request.user != kwargs.get('post', Post()).user:
 			error_msg(request, "You don't have permissions to edit this post.")
-			return redirect('forum-threads')
+			raise PermissionDenied
 		return original_function(request, **kwargs)
 	return new_function
 
