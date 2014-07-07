@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 from tags.models import Tag
+from threads.models import Thread
 
 class Problem(models.Model):
 	user = models.ForeignKey(User)
@@ -18,6 +19,8 @@ class Problem(models.Model):
 	tags = models.ManyToManyField(Tag)
 	difficulty = models.IntegerField()
 	coolness = models.IntegerField()
+
+	comments = models.ForeignKey(Thread)
 
 	def is_attached(self):
 		return self.round_set.count() > 0
@@ -52,6 +55,10 @@ class Problem(models.Model):
 		super(Problem, self).delete()
 
 	def save(self):
+		if self.id is None:
+			thread = Thread(type='comment')
+			thread.save()
+			self.comments = thread
 		self.check()
 		super(Problem, self).save()
 

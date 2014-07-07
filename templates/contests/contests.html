@@ -6,11 +6,13 @@ Contests
 
 {% block content %}
 
+{% if not is_kasia %}
 <div style="float: right;">
 	<a href="{% url 'contests-add' %}" class="btn btn-success">
 		Create a contest
 	</a>
 </div>
+{% endif %}
 
 <h1>Contests</h1>
 

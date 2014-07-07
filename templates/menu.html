@@ -8,11 +8,23 @@
 		<ul class="nav nav-pills nav-stacked">
 			<li><a href="{% url 'accounts-users' %}">{% icon 'user' %} Users</a></li>
 			<li><a href="{% url 'news-news' %}">{% icon 'envelope' %} News</a></li>
-			<li><a href="{% url 'problems-problems' %}">{% icon 'th' %} Problems</a></li>
+
+			{% if comments_new_posts %}
+				<li><a href="{% url 'problems-problems' %}">{% icon 'th' %} Problems &nbsp;<b>{% icon 'comment' %} ({{ comments_new_posts }})</b></a></li>
+			{% else %}
+				<li><a href="{% url 'problems-problems' %}">{% icon 'th' %} Problems</a></li>
+			{% endif %}
+
 			<li><a href="/contests">{% icon 'calendar' %} Contests</a></li>
 			<li><a href="{% url 'tags-tags' %}">{% icon 'tag' %} Tags</a></li>
 			<br/>
-			<li><a href="{% url 'forum-threads' %}">{% icon 'pencil' %} Forum</a></li>
+
+			{% if forum_new_threads %}
+				<li><a href="{% url 'forum-threads' %}">{% icon 'pencil' %} <b>Forum ({{ forum_new_threads }})</b></a></li>
+			{% else %}
+				<li><a href="{% url 'forum-threads' %}">{% icon 'pencil' %} Forum</a></li>
+			{% endif %}
+
 			<br/>
 			<li><a href="{% url 'accounts-settings' %}">{% icon 'wrench' %} Settings</a></li>
 			<li><a href="/help/">{% icon 'question-sign' %} Help</a></li>

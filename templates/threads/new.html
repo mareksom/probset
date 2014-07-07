@@ -1,22 +1,21 @@
 {% extends "menu.html" %}
 
 {% block head_title %}
-	Reply to {% if post.user.get_full_name %}{{ post.user.get_full_name }}{% else %}{{ post.user.username }}{% endif %}
+	New post
 {% endblock %}
 
 {% block content %}
 
-<h2>Reply to {% if post.user.get_full_name %}{{ post.user.get_full_name }}{% else %}{{ post.user.username }}{% endif %}</h2>
+<h2>New post</h2>
 
-{% include "forum/post.html" with noreply=True %}
 {% if preview %}
-<div class="forum-indent">
-	{% include "forum/post.html" with noreply=True post=new_post %}
-</div>
+	{% include "threads/post.html" with noreply=True post=new_post %}
 {% endif %}
 
 <form method="POST" class="form-horizontal">
 {% csrf_token %}
+
+	<input type="hidden" name="next" value="{{ next }}" />
 	
 	<div class="control-group{% if error.content %} error{% endif %}">
 		<label class="control-label" for="input_post">Post</label>
