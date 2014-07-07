@@ -1,0 +1,9 @@
+<uwsgi>
+  <socket>/home/others/wic2014-probset/probset/apache/uwsgi.sock</socket>
+  <chmod-socket>666</chmod-socket>
+  <chdir>/home/others/wic2014-probset/probset</chdir>
+  <logto>uwsgi.log</logto>
+  <pythonpath>..</pythonpath>
+  <module>wsgi</module>
+  <plugins>python33</plugins>
+</uwsgi>
