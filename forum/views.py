@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
 from forum.models import ForumThread
+from threads.models import Post
 from django.utils import timezone
 from utils.messages import error_msg, success_msg
 from utils.pages import compute_pages
@@ -26,20 +27,38 @@ def new_thread(request):
 	context = {}
 
 	thread = ForumThread()
+	new_post = Post()
 
 	if request.method == 'POST':
 		thread.title = request.POST.get('title', '')
+		new_post.content = request.POST.get('post', '')
+		new_post.user = request.user
 
 		try:
-			thread.save()
-			success_msg(request, "Thread created successfully.")
-			return redirect('forum-thread', thread.id)
+			if request.POST.get('preview', 'no-preview') != 'no-preview':
+				thread.check()
+				new_post.check()
+				context['preview'] = True
+
+			else:
+				thread.check()
+				new_post.check()
+				thread.save()
+				new_post.thread = thread.thread
+				new_post.save()
+				success_msg(request, "Thread created successfully.")
+				return redirect('forum-thread', thread.id)
 
 		except thread.Error as error:
 			error_msg(request, "Could not create the thread because of some errors.")
 			context['error'] = error
+
+		except new_post.Error as error:
+			error_msg(request, "Could not create the thread because of some errors.")
+			context['error'] = error
 	
 	context['thread'] = thread
+	context['new_post'] = new_post
 
 	return render(request, 'forum/new_thread.html', context)
 
