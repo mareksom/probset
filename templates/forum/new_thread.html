@@ -7,6 +7,10 @@ New thread
 {% block content %}
 <h2>New thread</h2>
 
+{% if preview %}
+	{% include "threads/post.html" with noreply=True post=new_post %}
+{% endif %}
+
 <form method="POST" class="form-horizontal">
 {% csrf_token %}
 
@@ -20,8 +24,19 @@ New thread
 		</div>
 	</div>
 
+	<div class="control-group{% if error.content %} error{% endif %}">
+		<label class="control-label" for="input_post">Post</label>
+		<div class="controls">
+			<textarea name="post" class="span8" style="height: 100px;" id="input_post" placeholder="Write Your post here.">{{ new_post.content }}</textarea>
+			{% if error.content %}
+				<span class="help-inline">{{ error.content }}</span>
+			{% endif %}
+		</div>
+	</div>
+
 	<div class="control-group">
 		<div class="controls">
+			<button type="submit" name="preview" class="btn btn-primary">Preview</button>
 			<button type="submit" name="send" class="btn btn-success">Send</button>
 		</div>
 	</div>
