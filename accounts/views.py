@@ -44,7 +44,7 @@ def settings(request):
 
 @login_required
 def users(request):
-	users = User.objects.all()
+	users = User.objects.order_by('-last_login').all()
 	context = {'users': users}
 	return render(request, 'accounts/users.html', context)
 
