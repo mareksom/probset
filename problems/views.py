@@ -163,7 +163,11 @@ def comments(request, problem):
 	context['thread'] = problem.comments
 	context['problem'] = problem
 	context['tab'] = 'comments'
-	problem.comments.set_seen_by(request.user)
+	if am_kasia(request):
+		if problem.user == request.user:
+			problem.comments.set_seen_by(request.user)
+	else:
+		problem.comments.set_seen_by(request.user)
 	return render(request, 'problems/problem/comments.html', context)
 
 
