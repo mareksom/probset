@@ -22,6 +22,10 @@
 		<a href="{% url 'help-problems' %}">{% icon 'th' %} Problems</a>
 	</li>
 
+	<li{% if tab == "latex" %} class="active"{% endif %}>
+		<a href="{% url 'help-latex' %}">{% icon 'text-width' %} LaTeX</a>
+	</li>
+
 </ul>
 
 {% block tab %}
