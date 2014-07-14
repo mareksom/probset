@@ -21,13 +21,5 @@
 		<td><b>Date joined</b></td>
 		<td>{{ user.date_joined }}</td>
 	</tr>
-	<td><b>Is superuser</b></td>
-	<td>
-		{% if user.is_superuser %}
-			{% icon 'ok' %}
-		{% else %}
-			{% icon 'remove' %}
-		{% endif %}
-	</td>
 </table>
 {% endblock %}
