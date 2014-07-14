@@ -48,6 +48,7 @@ INSTALLED_APPS = (
 	'contests',
 	'threads',
 	'forum',
+	'impersonate',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,6 +58,7 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'impersonate.middleware.ImpersonateMiddleware',
 )
 
 ROOT_URLCONF = 'probset.urls'

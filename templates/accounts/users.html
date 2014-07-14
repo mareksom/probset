@@ -17,7 +17,9 @@ User list
 		<td><b>Full name</b></td>
 		<td><b>Last login</b></td>
 		<td><b>Date joined</b></td>
-		<td><b>Is superuser</b></td>
+		{% if request.user.is_superuser %}
+			<td><b>Su</b></td>
+		{% endif %}
 	</tr>
 
 {% for user in users %}
@@ -26,13 +28,9 @@ User list
 		<td><a href="{% url 'accounts-user' user.id %}">{{ user.get_full_name }}</a></td>
 		<td>{{ user.last_login }}</td>
 		<td>{{ user.date_joined }}</td>
-		<td>
-			{% if user.is_superuser %}
-				{% icon 'ok' %}
-			{% else %}
-				{% icon 'remove' %}
-			{% endif %}
-		</td>
+		{% if request.user.is_superuser %}
+			<td><a href="{% url 'impersonate-start' user.id %}">{% icon 'share-alt' %}</a></td>
+		{% endif %}
 	</tr>
 {% endfor %}
 
