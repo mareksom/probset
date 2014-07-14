@@ -18,6 +18,9 @@ User list
 		<td><b>Last login</b></td>
 		<td><b>Date joined</b></td>
 		<td><b>Is superuser</b></td>
+		{% if request.user.is_superuser %}
+			<td><b>Su</b></td>
+		{% endif %}
 	</tr>
 
 {% for user in users %}
@@ -33,6 +36,9 @@ User list
 				{% icon 'remove' %}
 			{% endif %}
 		</td>
+		{% if request.user.is_superuser %}
+			<td><a href="{% url 'impersonate-start' user.id %}">{% icon 'share-alt' %}</a></td>
+		{% endif %}
 	</tr>
 {% endfor %}
 
