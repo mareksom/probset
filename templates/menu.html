@@ -27,7 +27,12 @@
 
 			<br/>
 			<li><a href="{% url 'accounts-settings' %}">{% icon 'wrench' %} Settings</a></li>
-			<li><a href="/help/">{% icon 'question-sign' %} Help</a></li>
+			<li><a href="{% url 'help-help' %}">{% icon 'question-sign' %} Help</a></li>
+
+			{% if request.user.is_superuser %}
+				<br/>
+				<li><a target="_blank" href="{% url 'admin:index' %}">{% icon 'eye-open' %} Admin</a></li>
+			{% endif %}
 		</ul>
 	</div>
 	<div class="span10">
