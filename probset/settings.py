@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '+x=df)-#r(ub3jc=vlzv)41kli7-5lq_404n#)l%xnl#3&2vm9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['wic2014-probset.staszic.waw.pl']
 
 WSGI_APPLICATION = 'probset.wsgi.application'
 
