@@ -3,7 +3,7 @@ from contests.models import Contest
 from django.shortcuts import render
 
 KASIA_USERNAME = 'elvina'
-KASIA_CONTESTS = (2, 3)
+KASIA_CONTESTS = (2, 3, 4)
 
 def am_kasia(request):
 	return request.user.username == KASIA_USERNAME
