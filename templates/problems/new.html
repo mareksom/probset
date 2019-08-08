@@ -61,7 +61,7 @@ New problem
 		<div class="controls">
 			<select name="difficulty" id="input_difficulty" class="selectpickter">
 				{% for i in "01234" %}
-					<option data-content="{% difficulty i True %}" value="{{ i }}"{% if i|add:0 = problem.difficulty %} selected{% endif %}>
+					<option data-content="{% difficulty i True %}" value="{{ i }}"{% if i|add:0 == problem.difficulty %} selected{% endif %}>
 						{% difficulty i %}
 					</option>
 				{% endfor %}
@@ -74,7 +74,7 @@ New problem
 		<div class="controls">
 			<select name="coolness" id="input_coolness" class="selectpickter">
 				{% for i in "01234" %}
-					<option data-content="{% coolness i True %}" value="{{ i }}"{% if i|add:0 = problem.coolness %} selected{% endif %}>
+					<option data-content="{% coolness i True %}" value="{{ i }}"{% if i|add:0 == problem.coolness %} selected{% endif %}>
 						{% coolness i %}
 					</option>
 				{% endfor %}

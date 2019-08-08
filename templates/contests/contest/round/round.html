@@ -33,9 +33,11 @@
 				<td><center>{% coolness problem.coolness %}</center></td>
 				<td>{{ problem.author }}</td>
 				<td width="1">
-					<span class="label label-important">
-						<a href="{% url 'contests-contest-round-detach-problem' contest.id round.id problem.id %}" style="color: white; text-decoration: none;">{% icon 'remove' True %}</a>
-					</span>
+					{% if problem.user.username == kasia_username or not is_kasia %}
+						<span class="label label-important">
+							<a href="{% url 'contests-contest-round-detach-problem' contest.id round.id problem.id %}" style="color: white; text-decoration: none;">{% icon 'remove' True %}</a>
+						</span>
+					{% endif %}
 				</td>
 			</tr>
 		{% empty %}

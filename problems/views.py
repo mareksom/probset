@@ -18,9 +18,13 @@ from django.http import HttpResponse
 import os
 from django.conf import settings
 
+from kasia.kasia import am_kasia, kasia_problem
+
 import string
 
 import re
+
+import datetime
 
 # decorator which handles non-existing problems
 def get_problem(original_function):
@@ -50,6 +54,7 @@ def get_package(original_function):
 
 @login_required
 @get_problem
+@kasia_problem
 def solution(request, problem):
 	context = {}
 
@@ -61,6 +66,7 @@ def solution(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def contests(request, problem):
 
 	context = {}
@@ -73,6 +79,7 @@ def contests(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 @get_package
 def remove_package(request, problem, package):
 	if package.user != request.user:
@@ -87,6 +94,7 @@ def remove_package(request, problem, package):
 
 @login_required
 @get_problem
+@kasia_problem
 @get_package
 def download(request, problem, package):
 	file_name = os.path.join(settings.BASE_DIR, package.package.url[1:])
@@ -101,6 +109,7 @@ def download(request, problem, package):
 
 @login_required
 @get_problem
+@kasia_problem
 def upload(request, problem):
 	package = Package()
 	context = {}
@@ -127,6 +136,7 @@ def upload(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def packages(request, problem):
 	packages = problem.package_set.order_by('-date').all()
 
@@ -139,6 +149,7 @@ def packages(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def info(request, problem):
 	context = {}
 	context['problem'] = problem
@@ -148,12 +159,17 @@ def info(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def comments(request, problem):
 	context = {}
 	context['thread'] = problem.comments
 	context['problem'] = problem
 	context['tab'] = 'comments'
-	problem.comments.set_seen_by(request.user)
+	if am_kasia(request):
+		if problem.user == request.user:
+			problem.comments.set_seen_by(request.user)
+	else:
+		problem.comments.set_seen_by(request.user)
 	return render(request, 'problems/problem/comments.html', context)
 
 
@@ -209,6 +225,7 @@ def new(request):
 
 @login_required
 @get_problem
+@kasia_problem
 def edit(request, problem):
 
 	if request.user != problem.user:
@@ -259,6 +276,7 @@ def edit(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def task(request, problem):
 	context = {'problem' : problem, 'tab' : 'task'}
 	return render(request, 'problems/problem/task.html', context)
@@ -266,13 +284,19 @@ def task(request, problem):
 
 @login_required
 @get_problem
+@kasia_problem
 def problem(request, problem):
 	return redirect('problems-problem-info', problem.id)
 
 
 @login_required
 def problems(request):
-	problems = Problem.objects.order_by('-created_date')
+	#log = open('/home/others/probset/probset/profiling.log', 'a')
+	#log.write('[%s] poczatek\n' % (datetime.datetime.now()))
+	if am_kasia(request):
+		problems = Problem.objects.filter(user=request.user).order_by('-created_date')
+	else:
+		problems = Problem.objects.order_by('-created_date')
 	context = {}
 	if request.method == 'GET':
 		context['search'] = {}
@@ -315,5 +339,10 @@ def problems(request):
 	context['tags'] = list(Tag.objects.all())
 	context['tags'].sort(key = lambda x : pl_filter(x.name.lower()))
 
+	#log.write('[%s] przed context[problems]\n' % (datetime.datetime.now()))
 	context['problems'] = list(((problem, problem.comments.was_seen_by(request.user)) for problem in problems.all()))
-	return render(request, 'problems/problems.html', context)
+	#log.write('[%s] po context[problems]\n' % (datetime.datetime.now()))
+	ret_val = render(request, 'problems/problems.html', context)
+	#log.write('[%s] koniec\n' % (datetime.datetime.now()))
+	#log.close()
+	return ret_val
