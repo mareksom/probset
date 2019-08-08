@@ -1,4 +1,5 @@
 from django import template
+from django.utils.html import format_html
 
 register = template.Library()
 
@@ -17,9 +18,10 @@ data = (
 )
 
 def make_i(i):
-	tmp = '<span class="badge badge-{}">{}</span>'.format(data[i][1], data[i][0])
+	#tmp = '<span class="badge badge-{}">{}</span>'.format(data[i][1], data[i][0])
 	def fun():
-		return tmp
+		return format_html('<span class="badge badge-{}">{}</span>', data[i][1], data[i][0])
+		#return tmp
 	register.simple_tag(fun, name=data[i][2])
 
 for i in range(5):
@@ -31,8 +33,10 @@ def difficulty(i, apo = False):
 	if i < 0 or i > 4:
 		raise IndexError
 	if apo:
-		return "<span class='badge badge-{}'>{}</span>".format(data[i][1], data[i][0])
-	return '<span class="badge badge-{}">{}</span>'.format(data[i][1], data[i][0])
+		return format_html("<span class='badge badge-{}'>{}</span>", data[i][1], data[i][0])
+		#return "<span class='badge badge-{}'>{}</span>".format(data[i][1], data[i][0])
+	return format_html('<span class="badge badge-{}">{}</span>', data[i][1], data[i][0])
+	#return '<span class="badge badge-{}">{}</span>'.format(data[i][1], data[i][0])
 
 @register.simple_tag
 def coolness(i, apo = False):
@@ -40,5 +44,7 @@ def coolness(i, apo = False):
 	if i < 0 or i > 4:
 		raise IndexError
 	if apo:
-		return "<span class='badge badge-{}'>{}</span>".format(data[i+5][1], data[i+5][0])
-	return '<span class="badge badge-{}">{}</span>'.format(data[i+5][1], data[i+5][0])
+		return format_html("<span class='badge badge-{}'>{}</span>", data[i+5][1], data[i+5][0])
+		#return "<span class='badge badge-{}'>{}</span>".format(data[i+5][1], data[i+5][0])
+	return format_html('<span class="badge badge-{}">{}</span>', data[i+5][1], data[i+5][0])
+	#return '<span class="badge badge-{}">{}</span>'.format(data[i+5][1], data[i+5][0])

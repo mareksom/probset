@@ -24,6 +24,8 @@ import string
 
 import re
 
+import datetime
+
 # decorator which handles non-existing problems
 def get_problem(original_function):
 	def new_function(request, **kwargs):
@@ -289,6 +291,8 @@ def problem(request, problem):
 
 @login_required
 def problems(request):
+	#log = open('/home/others/probset/probset/profiling.log', 'a')
+	#log.write('[%s] poczatek\n' % (datetime.datetime.now()))
 	if am_kasia(request):
 		problems = Problem.objects.filter(user=request.user).order_by('-created_date')
 	else:
@@ -335,5 +339,10 @@ def problems(request):
 	context['tags'] = list(Tag.objects.all())
 	context['tags'].sort(key = lambda x : pl_filter(x.name.lower()))
 
+	#log.write('[%s] przed context[problems]\n' % (datetime.datetime.now()))
 	context['problems'] = list(((problem, problem.comments.was_seen_by(request.user)) for problem in problems.all()))
-	return render(request, 'problems/problems.html', context)
+	#log.write('[%s] po context[problems]\n' % (datetime.datetime.now()))
+	ret_val = render(request, 'problems/problems.html', context)
+	#log.write('[%s] koniec\n' % (datetime.datetime.now()))
+	#log.close()
+	return ret_val

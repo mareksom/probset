@@ -1,4 +1,5 @@
 from django import template
+from django.utils.html import format_html
 
 register = template.Library()
 
@@ -25,4 +26,5 @@ def puttag(tag, color = False, apo = False, full=False):
 		string = "<span title='{}' class='label' style='background-color: {}; color: {};'>{}</span>"
 	else:
 		string = '<span title="{}" class="label" style="background-color: {}; color: {};">{}</span>'
-	return string.format(title, tag.color, textcolor(tag.color), text)
+	return format_html(string, title, tag.color, textcolor(tag.color), text)
+	#return string.format(title, tag.color, textcolor(tag.color), text)

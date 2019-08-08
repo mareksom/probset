@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -20,11 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '+x=df)-#r(ub3jc=vlzv)41kli7-5lq_404n#)l%xnl#3&2vm9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['wic2014-probset.staszic.waw.pl']
+ALLOWED_HOSTS = ['wic2014-probset.staszic.waw.pl',
+                 'probset.staszic.waw.pl']
 
 WSGI_APPLICATION = 'probset.wsgi.application'
 
@@ -79,7 +80,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Europe/Warsaw'
 
@@ -99,18 +100,26 @@ STATICFILES_DIRS = (
 	os.path.join(BASE_DIR, 'static'),
 )
 
-TEMPLATE_DIRS = (
-	os.path.join(BASE_DIR, 'templates'),
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-	'django.contrib.auth.context_processors.auth',
-	'django.core.context_processors.request',
-	'probset.context_processors.messages',
-	'probset.context_processors.kasia',
-	'probset.context_processors.forum_posts',
-	'probset.context_processors.comments_posts',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # zmigrowane TEMPLATE_CONTEXT_PROCESSORS
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.request',
+                'probset.context_processors.messages',
+                'probset.context_processors.kasia',
+                'probset.context_processors.forum_posts',
+                'probset.context_processors.comments_posts',
+            ],
+        },
+    },
+]
 
 # Media files
 

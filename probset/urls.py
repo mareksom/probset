@@ -1,14 +1,16 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
+
+import news.views
 
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = [
     # Examples:
     # url(r'^$', 'probset.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-		url(r'^$', 'news.views.news'),
+		url(r'^$', news.views.news),
 		url(r'^accounts/', include('accounts.urls'), name='accounts'),
 		url(r'^news/', include('news.urls'), name='news'),
 		url(r'^help/', include('help.urls'), name='help'),
@@ -20,4 +22,4 @@ urlpatterns = patterns('',
 
 		url(r'^su/', include('impersonate.urls'), name='impersonate'),
     url(r'^admin/', include(admin.site.urls)),
-)
+]

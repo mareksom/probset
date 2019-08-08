@@ -2,8 +2,8 @@ from problems.models import Problem
 from contests.models import Contest
 from django.shortcuts import render
 
-KASIA_USERNAME = 'elvina'
-KASIA_CONTESTS = (2, 3, 4)
+KASIA_USERNAME = '?'
+KASIA_CONTESTS = (12, 13, 14, 15, 16, 17)
 
 def am_kasia(request):
 	return request.user.username == KASIA_USERNAME

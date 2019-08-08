@@ -1,4 +1,5 @@
 from django import template
+from django.utils.html import format_html
 
 register = template.Library()
 
@@ -8,4 +9,4 @@ def icon(name, white = False):
 		white_str = ' icon-white'
 	else:
 		white_str = ''
-	return '<i class="icon icon-{}{}"></i>'.format(name, white_str)
+	return format_html('<i class="icon icon-{}{}"></i>', name, white_str)
