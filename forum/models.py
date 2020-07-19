@@ -14,7 +14,7 @@ class ForumThread(models.Model):
 		def is_error(self):
 			return self.title != ''
 	
-	def check(self):
+	def clean(self):
 		err = self.Error()
 		if len(self.title) == 0 or self.title.isspace():
 			err.title = "The title shall contain at least one non-whitespace character."
@@ -24,7 +24,6 @@ class ForumThread(models.Model):
 			raise err
 	
 	def save(self):
-		self.check()
 		if self.id is None:
 			thread = Thread(type='forum')
 			thread.save()

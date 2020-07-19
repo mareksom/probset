@@ -14,7 +14,7 @@ class Tag(models.Model):
 		def is_error(self):
 			return self.name != '' or self.short != '' or self.color != ''
 	
-	def check(self):
+	def clean(self):
 		err = self.Error()
 
 		if len(self.name) > 100:
@@ -33,9 +33,6 @@ class Tag(models.Model):
 		if err.is_error():
 			raise err
 
-	def save(self):
-		self.check()
-		super(Tag, self).save()
 
 	def __str__(self):
 		return '{} "{}"'.format(self.short, self.name)

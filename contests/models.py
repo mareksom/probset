@@ -19,7 +19,7 @@ class Contest(models.Model):
 		def is_error(self):
 			return self.name != '' or self.begin_date != '' or self.end_date != ''
 	
-	def check(self):
+	def clean(self):
 		err = self.Error()
 		if not 0 < len(self.name) <= 100:
 			err.name = "Contest name length should be from range [1, 100]."
@@ -48,10 +48,6 @@ class Contest(models.Model):
 		if err.is_error():
 			raise err
 
-	def save(self):
-		self.check()
-		super(Contest, self).save()
-
 	def __str__(self):
 		return self.name
 
@@ -67,7 +63,7 @@ class Round(models.Model):
 		def is_error(self):
 			return self.name != ''
 	
-	def check(self):
+	def clean(self):
 		err = self.Error()
 
 		if not 0 < len(self.name) <= 100:
@@ -75,10 +71,6 @@ class Round(models.Model):
 
 		if err.is_error():
 			raise err
-
-	def save(self):
-		self.check()
-		super(Round, self).save()
 
 	def __str__(self):
 		return self.name

@@ -36,7 +36,7 @@ class Problem(models.Model):
 		def is_error(self):
 			return self.title != '' or self.author != '' or self.difficulty != '' or self.coolness != ''
 
-	def check(self):
+	def clean(self):
 		err = self.Error()
 		if not 0 < len(self.title) <= 100:
 			err.title = "Title should be a string of length from range [1, 100]."
@@ -59,7 +59,6 @@ class Problem(models.Model):
 			thread = Thread(type='comment')
 			thread.save()
 			self.comments = thread
-		self.check()
 		super(Problem, self).save()
 
 	def __str__(self):

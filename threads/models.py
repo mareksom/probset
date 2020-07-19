@@ -24,7 +24,7 @@ class Post(models.Model):
 		def is_error(self):
 			return self.content != ''
 	
-	def check(self):
+	def clean(self):
 		err = self.Error()
 		if len(self.content) == 0 or self.content.isspace():
 			err.content = "The post shall contain at least one non-whitespace character."
@@ -42,7 +42,6 @@ class Post(models.Model):
 		else:
 			new_post = False
 
-		self.check()
 		super(Post, self).save()
 		if new_post:
 			self.update_last_post()
