@@ -21,5 +21,5 @@ urlpatterns = [
 		url(r'^forum/', include('forum.urls'), name='forum'),
 
 		url(r'^su/', include('impersonate.urls'), name='impersonate'),
-    url(r'^admin/', include(admin.site.urls)),
+		url(r'^admin/', admin.site.urls),
 ]
