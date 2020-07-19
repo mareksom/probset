@@ -59,7 +59,7 @@ def user(request,ID):
 	return render(request, 'accounts/user.html', context)
 
 def login(request):
-	if request.user.is_authenticated():
+	if request.user.is_authenticated:
 		return redirect('accounts-users')
 	messages = []
 	if request.method == 'POST':
