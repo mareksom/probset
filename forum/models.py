@@ -7,7 +7,7 @@ from threads.models import Thread
 class ForumThread(models.Model):
 	created_date = models.DateTimeField(auto_now_add=True)
 	title = models.CharField(max_length=200)
-	thread = models.ForeignKey(Thread)
+	thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
 
 	class Error(Exception):
 		title = ''

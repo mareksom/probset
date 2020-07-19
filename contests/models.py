@@ -60,7 +60,7 @@ class Round(models.Model):
 	name = models.CharField(max_length=100)
 	problems = models.ManyToManyField(Problem, blank=True)
 
-	contest = models.ForeignKey(Contest)
+	contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
 
 	class Error(Exception):
 		name = ''

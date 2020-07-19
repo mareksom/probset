@@ -6,7 +6,7 @@ from django.utils import timezone
 from utils import bbcode
 
 class News(models.Model):
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	title = models.CharField(max_length=200)
 	text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)

@@ -11,10 +11,10 @@ class Package(models.Model):
 	def get_file_name(self, filename):
 		return '/'.join(['packages', str(self.problem.id), timezone.now().strftime("%Y%m%d%H%M%S"), filename])
 
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	date = models.DateTimeField(auto_now_add=True)
 	comment = models.TextField()
-	problem = models.ForeignKey(Problem)
+	problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
 	package = models.FileField(upload_to=get_file_name)
 
 	def delete(self):

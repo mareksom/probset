@@ -8,7 +8,7 @@ from tags.models import Tag
 from threads.models import Thread
 
 class Problem(models.Model):
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	author = models.CharField(max_length=100)
 	title = models.CharField(max_length=100)
 	created_date = models.DateTimeField(auto_now_add=True)
@@ -20,7 +20,7 @@ class Problem(models.Model):
 	difficulty = models.IntegerField()
 	coolness = models.IntegerField()
 
-	comments = models.ForeignKey(Thread)
+	comments = models.ForeignKey(Thread, on_delete=models.CASCADE)
 
 	def is_attached(self):
 		return self.round_set.count() > 0

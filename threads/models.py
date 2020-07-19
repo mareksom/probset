@@ -3,14 +3,14 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 class Post(models.Model):
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	created_date = models.DateTimeField(auto_now_add=True)
 	edited_date = models.DateTimeField(auto_now=True)
 	content = models.TextField()
 
 	# One of the fields below should be null, and other should be filled
-	answer_to = models.ForeignKey('Post', null=True, blank=True)
-	thread = models.ForeignKey('Thread', null=True, blank=True)
+	answer_to = models.ForeignKey('Post', on_delete=models.CASCADE, null=True, blank=True)
+	thread = models.ForeignKey('Thread', on_delete=models.CASCADE, null=True, blank=True)
 
 	def get_thread(self):
 		if self.thread is None:
@@ -52,7 +52,7 @@ class Post(models.Model):
 
 
 class Thread(models.Model):
-	last_post = models.ForeignKey('Post', null=True, blank=True, related_name='last_post')
+	last_post = models.ForeignKey('Post', on_delete=models.CASCADE, null=True, blank=True, related_name='last_post')
 	type = models.CharField(max_length=10)
 	seen_by = models.ManyToManyField(User)
 
