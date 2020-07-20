@@ -64,13 +64,13 @@ Problems
 				</div>
 				<div style="margin-bottom: -10px; text-align: center;">
 					<input type="text" name="last_used" id="input_last_used" class="datepicker" value="{{last_used|date:"d-m-Y" }}"
-							style="min-width: 100px;" onchange="setTimeout('document.getElementById(\'search_form\').submit()',1000);"/>
+							style="width: 100px;" onchange="setTimeout('document.getElementById(\'search_form\').submit()',1000);"/>
 						{% if error.begin_date %}
 							<span class="help-inline">{{ error.begin_date }}</span>
 						{% endif %}
 				</div>
 			</th>
-			<th style="min-width: 100px;">When added</th>
+			<th style="width: 100px;">When added</th>
 			<th>Added by</th>
 		</form>
 	</tr>
