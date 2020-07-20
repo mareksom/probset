@@ -26,7 +26,7 @@ Problems
 				<div style="float: right;">
 					<div style="float: left; margin-bottom: 0px; padding-top: 5px; padding-right: 5px;">
 						<input style="margin-top: -6px; width: 100px;" type="text" name="search_title" class="search-query"
-							value="{{ search.title }}" />
+							value="{{ search.title }}" onchange="document.getElementById('search_form').submit()"/>
 					</div>
 					<div style="float: right; margin-bottom: -10px;">
 						<select name="tags" class="selectpicker" data-style="btn-inverse" title="Tags" data-live-search="true" data-width="92px" multiple
@@ -64,7 +64,7 @@ Problems
 				</div>
 				<div style="margin-bottom: -10px; text-align: center;">
 					<input type="text" name="last_used" id="input_last_used" class="datepicker" value="{{last_used|date:"d-m-Y" }}"
-							style="width: 100px;" onchange="setTimeout('document.getElementById(\'search_form\').submit()',1000);"/>
+							style="width: 100px;" onchange="document.getElementById('search_form').submit()"/>
 						{% if error.begin_date %}
 							<span class="help-inline">{{ error.begin_date }}</span>
 						{% endif %}
