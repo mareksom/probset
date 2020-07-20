@@ -336,19 +336,16 @@ def problems(request):
 			except ValueError: pass
 		problems = problems.filter(tmp_query)
 
-		# date
-		context['time'] = datetime.date.today()
-
 		# last_used
-		last_used = request.GET.get('last_used', datetime.date.today().strftime("%d-%m-%Y"))
+		last_used = request.GET.get('last_used', None)
 		try:
 			context['last_used'] = datetime.datetime.strptime(str(last_used), "%d-%m-%Y")
-		except ValueError:
-			context['last_used'] = datetime.datetime.today()
 
-		# exclude problems with assigned contests ending after date 'last_used'
-		problems = problems.prefetch_related('round_set__contest').exclude(
-			round__contest__end_date__gt=context['last_used']).order_by('-created_date')
+			# exclude problems with assigned contests ending after date 'last_used'
+			problems = problems.prefetch_related('round_set__contest').exclude(
+				round__contest__end_date__gt=context['last_used']).order_by('-created_date')
+		except ValueError:
+			context['last_used'] = None
 
 	context['tags'] = list(Tag.objects.all())
 	context['tags'].sort(key = lambda x : pl_filter(x.name.lower()))
