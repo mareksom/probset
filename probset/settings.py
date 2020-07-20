@@ -52,7 +52,7 @@ INSTALLED_APPS = (
 	'impersonate',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
@@ -60,7 +60,7 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 	'impersonate.middleware.ImpersonateMiddleware',
-)
+]
 
 ROOT_URLCONF = 'probset.urls'
 
@@ -116,6 +116,7 @@ TEMPLATES = [
                 'probset.context_processors.kasia',
                 'probset.context_processors.forum_posts',
                 'probset.context_processors.comments_posts',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
@@ -125,3 +126,7 @@ TEMPLATES = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+IMPERSONATE = {
+	'REDIRECT_URL': '/',
+}
