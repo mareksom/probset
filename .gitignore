@@ -8,3 +8,4 @@ __pycache__/
 # Site files
 db.sqlite3
 media/*
+static/*
