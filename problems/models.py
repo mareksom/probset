@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 from django.utils import timezone
@@ -27,6 +29,19 @@ class Problem(models.Model):
 	
 	def has_package(self):
 		return self.package_set.count() > 0
+
+	def when_last_used(self):
+		last_used = datetime.date.min
+
+		for problem_round in self.round_set.all():
+			problem_contest = problem_round.contest
+			contest_end_date = problem_contest.end_date
+			last_used = max(last_used, contest_end_date)
+
+		if last_used == datetime.date.min:
+			last_used = None
+
+		return last_used
 
 	class Error(Exception):
 		title = ''

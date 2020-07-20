@@ -58,8 +58,19 @@ Problems
 				</select>
 				</div>
 			</th>
-			<th>Author</th>
-			<th>Date</th>
+			<th>
+				<div style="text-align: center;">
+					Last used
+				</div>
+				<div style="margin-bottom: -10px; text-align: center;">
+					<input type="text" name="last_used" id="input_last_used" class="datepicker" value="{{last_used|date:"d-m-Y" }}"
+							style="min-width: 100px;" onchange="setTimeout('document.getElementById(\'search_form\').submit()',1000);"/>
+						{% if error.begin_date %}
+							<span class="help-inline">{{ error.begin_date }}</span>
+						{% endif %}
+				</div>
+			</th>
+			<th style="min-width: 100px;">When added</th>
 			<th>Added by</th>
 		</form>
 	</tr>
@@ -81,8 +92,8 @@ Problems
 	</td>
 	<td><center>{% difficulty problem.difficulty %}</center></td>
 	<td><center>{% coolness problem.coolness %}</center></td>
-	<td>{{ problem.author }}</td>
-	<td>{{ problem.created_date }}</td>
+	<td style="text-align: center;">{{ problem.when_last_used|date:"d-m-Y" }}</td>
+	<td>{{ problem.created_date|date:"d-m-Y" }}</td>
 	<td><a href="{% url 'accounts-user' problem.user.id %}">{{ problem.user.get_full_name }}</a></td>
 </tr>
 {% empty %}
