@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
@@ -37,6 +39,10 @@ def get_round(original_function):
 		return original_function(request, **kwargs)
 	return new_function
 
+# def convert date in string format DD-MM-YYYY to date in string format YYYY-MM-DD
+def convert_date_str(date_str):
+	date = datetime.datetime.strptime(date_str, "%d-%m-%Y")
+	return datetime.datetime.strftime(date, "%Y-%m-%d")
 
 from problems.views import get_problem
 
@@ -161,8 +167,8 @@ def edit(request, contest):
 	if request.method == 'POST':
 		contest.name = request.POST.get('name', '')
 		contest.description = request.POST.get('description', '')
-		contest.begin_date = request.POST.get('begin_date', '')
-		contest.end_date = request.POST.get('end_date' ,'')
+		contest.begin_date = convert_date_str(request.POST.get('begin_date', ''))
+		contest.end_date = convert_date_str(request.POST.get('end_date', ''))
 
 		if request.POST.get('remove', 'no-remove') != 'no-remove':
 			contest.delete()
@@ -191,8 +197,8 @@ def add(request):
 	if request.method == 'POST':
 		contest.name = request.POST.get('name', '')
 		contest.description = request.POST.get('description', '')
-		contest.begin_date = request.POST.get('begin_date', '')
-		contest.end_date = request.POST.get('end_date', '')
+		contest.begin_date = convert_date_str(request.POST.get('begin_date', ''))
+		contest.end_date = convert_date_str(request.POST.get('end_date', ''))
 
 		try:
 			contest.save()
