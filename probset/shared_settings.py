@@ -44,6 +44,7 @@ INSTALLED_APPS = (
 	'threads',
 	'forum',
 	'impersonate',
+	'dj_pagination',
 )
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 	'impersonate.middleware.ImpersonateMiddleware',
+	'dj_pagination.middleware.PaginationMiddleware',
 ]
 
 ROOT_URLCONF = 'probset.urls'

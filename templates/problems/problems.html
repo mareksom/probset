@@ -5,10 +5,15 @@
 {% load icon %}
 
 {% block head_title %}
+
 Problems
 {% endblock %}
 
 {% block content %}
+
+{% load pagination_tags %}
+{% autopaginate problems 50 %}
+
 <div style="float: right">
 	<a href="{% url 'problems-new' %}" class="btn btn-success">Create a new problem</a>
 </div>
@@ -109,5 +114,7 @@ Problems
 </tr>
 {% endfor %}
 </table>
+
+{% paginate %}
 
 {% endblock %}
