@@ -123,14 +123,10 @@ Problems
 			{% if problems_count == 1 %}
 				problem
 			{% else %}
-				{% if problems_count == 0 %}
-					problemów
+				{% if problems_count > 0 and problems_count < 5 %}
+					problemy
 				{% else %}
-					{% if problems_count < 5 %}
-						problemy
-					{% else %}
-						problemów
-					{% endif %}
+					problemów
 				{% endif %}
 			{% endif %}
 		</i>
