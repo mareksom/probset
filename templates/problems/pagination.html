@@ -1,0 +1,28 @@
+{% if is_paginated %}
+	{% load i18n %}
+
+	<div class="pagination">
+		{% block pagelinks %}
+
+		{% if display_page_links %}
+			{% for page in pages %}
+				{% if page %}
+					{% ifequal page page_obj.number %}
+						<span class="current page">{{ page }}</span>
+					{% else %}
+						{% if disable_link_for_first_page and page == 1 %}
+							<a href="{{ request.path }}{% if getvars %}?{{ getvars|slice:"1:" }}{% endif %}" class="page">{{ page }}</a>
+						{% else %}
+							<a href="?page{{ page_suffix }}={{ page }}{{ getvars }}" class="page">{{ page }}</a>
+						{% endif %}
+					{% endifequal %}
+				{% else %}
+					<span class="dots">...</span>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+
+		{% endblock pagelinks %}
+	</div>
+
+{% endif %}

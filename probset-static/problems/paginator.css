@@ -1,0 +1,58 @@
+.pagination {
+    font-size: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 22px;
+    margin: 0;
+    border-top: 1px solid #ddd;
+}
+
+.pagination a:link,
+.pagination a:visited {
+    /* display: inline-block;
+    width: 18px;
+    text-align: center; */
+    padding: 2px 6px;
+    margin: 0px 1px;
+    background: #238ec4;
+    text-decoration: none;
+    color: #fff;
+}
+
+.pagination a.showall {
+    padding: 0;
+    border: none;
+    background: none;
+    color: #5b80b2;
+}
+
+.pagination a.showall:focus,
+.pagination a.showall:hover {
+    background: none;
+    color: #036;
+}
+
+.pagination .end {
+    margin-right: 6px;
+}
+
+.pagination .this-page {
+    padding: 2px 6px;
+    font-weight: bold;
+    font-size: 13px;
+    vertical-align: top;
+}
+
+.pagination a:focus,
+.pagination a:hover {
+    background: #036;
+}
+
+.pagination .current,
+.pagination a,
+.pagination .dots
+{
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
