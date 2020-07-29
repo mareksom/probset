@@ -352,6 +352,8 @@ def problems(request):
 
 	#log.write('[%s] przed context[problems]\n' % (datetime.datetime.now()))
 	context['problems'] = list(((problem, problem.comments.was_seen_by(request.user)) for problem in problems.all()))
+	context['problems_count'] = len(context['problems'])
+
 	#log.write('[%s] po context[problems]\n' % (datetime.datetime.now()))
 	ret_val = render(request, 'problems/problems.html', context)
 	#log.write('[%s] koniec\n' % (datetime.datetime.now()))

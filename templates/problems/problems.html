@@ -115,6 +115,27 @@ Problems
 {% endfor %}
 </table>
 
-{% paginate using "problems/pagination.html" %}
+<div>
+	{% paginate using "problems/pagination.html" %}
+	<span>
+		<i style="font-size: 13px;">
+			{{ problems_count }}
+			{% if problems_count == 1 %}
+				problem
+			{% else %}
+				{% if problems_count == 0 %}
+					problemów
+				{% else %}
+					{% if problems_count < 5 %}
+						problemy
+					{% else %}
+						problemów
+					{% endif %}
+				{% endif %}
+			{% endif %}
+		</i>
+	</span>
+</div>
+
 
 {% endblock %}
