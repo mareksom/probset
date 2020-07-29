@@ -1,7 +1,7 @@
 {% if is_paginated %}
 	{% load i18n %}
 
-	<div class="pagination">
+	<span class="pagination">
 		{% block pagelinks %}
 
 		{% if display_page_links %}
@@ -23,6 +23,6 @@
 		{% endif %}
 
 		{% endblock pagelinks %}
-	</div>
+	</span>
 
 {% endif %}
