@@ -12,7 +12,10 @@ Problems
 {% block content %}
 
 {% load pagination_tags %}
-{% autopaginate problems 50 %}
+
+{% if show_all != 'True' %}
+	{% autopaginate problems 50 %}
+{% endif %}
 
 <div style="float: right">
 	<a href="{% url 'problems-new' %}" class="btn btn-success">Create a new problem</a>
@@ -115,10 +118,10 @@ Problems
 {% endfor %}
 </table>
 
-<div>
+<div style="border-top: 1px solid #ddd; padding: 10px 0px;">
 	{% paginate using "problems/pagination.html" %}
 	<span>
-		<i style="font-size: 13px;">
+		<i style="font-size: 13px; margin-left: 10px;">
 			{{ problems_count }}
 			{% if problems_count == 1 %}
 				problem
@@ -130,6 +133,19 @@ Problems
 				{% endif %}
 			{% endif %}
 		</i>
+	</span>
+	<span>
+		{% if show_all == 'True' %}
+			<button type="submit" name="show_all" value="False" style="font-size: 10px; padding: 0px 3px; margin-left: 10px;"
+				form="search_form">
+				Stronicuj
+			</button>
+		{% else %}
+			<button type="submit" name="show_all" value="True" style="font-size: 10px; padding: 0px 3px; margin-left: 10px;"
+				form="search_form">
+				Pokaż wszystkie
+			</button>
+		{% endif %}
 	</span>
 </div>
 

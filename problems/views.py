@@ -347,6 +347,9 @@ def problems(request):
 		except ValueError:
 			context['last_used'] = None
 
+		# show all problems
+		context['show_all'] = request.GET.get('show_all', 'False')
+
 	context['tags'] = list(Tag.objects.all())
 	context['tags'].sort(key = lambda x : pl_filter(x.name.lower()))
 
