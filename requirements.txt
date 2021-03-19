@@ -1,4 +1,4 @@
-Django==3.0.8
+Django==3.1.6
 django-impersonate==1.5.1
 postmarkup==1.2.2
 Pygments==2.6.1
