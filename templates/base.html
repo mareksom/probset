@@ -148,14 +148,17 @@
 		{% endblock %}
 
 		<script>
-			MathJax = {
+			window.MathJax = {
 			  tex: {
 				inlineMath: [['\\(','\\)']],
+				displayMath: [['\\[','\\]']],
 				autoload: {
 				  color: [],
 				  colorV2: ['color']
 				},
-				packages: {'[+]': ['noerrors']}
+				packages: {'[+]': ['noerrors']},
+				processEscapes: true,
+				processEnvironments: true
 			  },
 			  options: {
 				ignoreHtmlClass: 'tex2jax_ignore',
