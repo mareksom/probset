@@ -16,10 +16,7 @@ extensions = [
 extension_configs = {
     "pymdownx.magiclink": {
         "repo_url_shortener": True,
-        "repo_url_shorthand": True,
-        "provider": "github",
-        "user": "facelessuser",
-        "repo": "pymdown-extensions",
+        "social_url_shortener": True,
     },
     "pymdownx.tilde": {"subscript": False},
     "pymdownx.emoji": {
