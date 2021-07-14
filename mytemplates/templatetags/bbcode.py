@@ -1,6 +1,6 @@
 from django import template
 
-from utils import bbcode
+from utils import bbcode, markdown
 
 register = template.Library()
 
@@ -15,4 +15,6 @@ class BBCodeNode(template.Node):
 		self.code = code
 	def render(self, context):
 		code = self.code.render(context).strip()
+		if code.startswith("[md]"):
+			return markdown.evaluate(code[4:])
 		return bbcode.evaluate(code)
