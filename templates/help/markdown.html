@@ -1,0 +1,26 @@
+{% extends "help/menu.html" %}
+
+{% load bbcode %}
+
+{% block head_title %}
+	Markdown -- Help
+{% endblock %}
+
+{% block tab %}
+<h3>Markdown</h3>
+
+{% bbcode %}
+[md]
+Aby używać Markdowna zamiast BBCode'a, na początku tekstu napisz `[md]`. 
+O składni Markdowna można przeczytać [tutaj](https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf) (@mentions nie są obsługiwane).
+
+Aby z Markdowna użyć $\LaTeX$a:
+
+ - w linii: `$x + 2y$` lub `\( x + 2y \)` - \( x + 2y \) - w przypadku zapisu z dolarami niezbędny jest brak spacji
+ - w bloku: `$$ x + 2y $$` lub `\[ x + 2y \]` - koniecznie od nowej linii
+ 
+$$	x + 2y $$
+
+{% endbbcode %}
+
+{% endblock %}
