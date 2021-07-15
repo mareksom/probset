@@ -49,3 +49,7 @@ def bbcode(request):
 		"[list=A]\n[*] One\n[*] Two\n[*]Three\n[/list]",
 	)
 	return render(request, 'help/bbcode.html', {'bbcode_list' : lista, 'tab': 'bbcode' })
+
+@login_required
+def markdown(request):
+	return render(request, 'help/markdown.html', {'tab': 'markdown'})
