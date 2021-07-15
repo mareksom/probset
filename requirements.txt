@@ -1,6 +1,6 @@
 asgiref==3.4.1
 dj-pagination==2.5.0
-Django==3.0.8
+Django==3.1.12
 django-impersonate==1.5.1
 importlib-metadata==4.6.1
 Markdown==3.3.4
