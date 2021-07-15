@@ -34,10 +34,31 @@ extension_configs = {
     "pymdownx.superfences": {"css_class": "code"},
 }
 
+tags  = [
+    "h1", "h2", "h3", "h4", "h5", "h6",
+    "b", "i", "strong", "em", "tt",
+    "p", "br",
+    "span", "div", "blockquote", "code", "pre", "hr",
+    "ul", "ol", "li", "dd", "dt",
+    "img",
+    "a",
+    "sub", "sup",
+    "table", "thead", "tbody", "th", "td", "tr",
+]
+
+attributes = {
+    "*": ["id"],
+    "img": ["src", "alt", "title"],
+    "a": ["href", "alt", "title"],
+    "div": ["class"], "span": ["class"]
+}
+
+def sanitize(text):
+    return clean(text, tags=tags, attributes=attributes)
 
 def evaluate(text):
     return (
         '<div class="markdown bbcode">'
-        + markdown(clean(text), extensions=extensions, extension_configs=extension_configs)
+        + sanitize(markdown(text, extensions=extensions, extension_configs=extension_configs))
         + "</div>"
     )
