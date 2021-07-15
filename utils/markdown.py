@@ -1,5 +1,6 @@
 from markdown import markdown
 from pymdownx import emoji
+from bleach import clean
 
 extensions = [
     "markdown.extensions.tables",
@@ -37,6 +38,6 @@ extension_configs = {
 def evaluate(text):
     return (
         '<div class="markdown bbcode">'
-        + markdown(text, extensions=extensions, extension_configs=extension_configs)
+        + markdown(clean(text), extensions=extensions, extension_configs=extension_configs)
         + "</div>"
     )
