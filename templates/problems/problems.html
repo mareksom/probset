@@ -81,8 +81,9 @@ Problems
 			<th style="width: 100px;">When added</th>
 			<th>
                 Added by <br>
-                <input type="checkbox" name="my_problems" class="mb-2" onchange="document.getElementById
-                ('search_form').submit()" value="true" {% if my_problems %} checked {% endif %}> Me
+                <input type="checkbox" name="my_problems" class="mb-2" value="true" style="margin-bottom: 6px"
+                        {% if my_problems %} checked {% endif %}
+                       onchange="document.getElementById('search_form').submit()" /> Me
             </th>
 		</form>
 	</tr>
