@@ -79,7 +79,11 @@ Problems
 				</div>
 			</th>
 			<th style="width: 100px;">When added</th>
-			<th>Added by</th>
+			<th>
+                Added by <br>
+                <input type="checkbox" name="my_problems" class="mb-2" onchange="document.getElementById
+                ('search_form').submit()" value="true" {% if my_problems %} checked {% endif %}> Me
+            </th>
 		</form>
 	</tr>
 </thead>

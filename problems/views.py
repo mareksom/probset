@@ -347,6 +347,16 @@ def problems(request):
 		except ValueError:
 			context['last_used'] = None
 
+		# my_problems
+		tmp_query = Q()
+		try:
+			context['my_problems'] = request.GET.get('my_problems')
+			if context['my_problems']:
+				tmp_query |= Q(user=request.user.id)
+		except ValueError:
+			context['my_problems'] = None
+		problems = problems.filter(tmp_query)
+
 		# show all problems
 		context['show_all'] = request.GET.get('show_all', 'False')
 
